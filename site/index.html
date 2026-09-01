@@ -1,0 +1,475 @@
+<title>Kerb2Kerb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F3F6F7;
+    --surface:#FFFFFF;
+    --ink:#10202E;
+    --ink-soft:#4B5C68;
+    --accent:#E05B2B;
+    --accent-soft:#FCE6DB;
+    --success:#25D366;
+    --rule:#DCE3E7;
+    --shadow: 0 1px 2px rgba(16,32,46,.05), 0 8px 24px rgba(16,32,46,.06);
+    --display: "Big Shoulders Display", Impact, "Arial Narrow", sans-serif;
+    --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    color-scheme: light;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3{
+    font-family:var(--display);
+    text-transform:uppercase;
+    font-weight:800;
+    line-height:1.02;
+    letter-spacing:.2px;
+    text-wrap:balance;
+    margin:0;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:var(--accent);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin:0 0 14px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;height:2px;background:var(--accent);display:inline-block;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:var(--sans);font-weight:600;font-size:15px;
+    padding:14px 26px;border-radius:10px;border:2px solid transparent;
+    cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    white-space:nowrap;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 6px 18px rgba(224,91,43,.28);}
+  .btn-primary:hover{background:#c94f22;}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--rule);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-whatsapp{background:var(--success);color:#fff;}
+  .btn-whatsapp:hover{background:#1fb958;}
+  .btn-sm{padding:9px 16px;font-size:13.5px;border-radius:8px;}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(243,246,247,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--rule);
+  }
+  .header-inner{
+    max-width:1080px;margin:0 auto;padding:14px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
+  }
+  .logo{
+    font-family:var(--display);font-weight:800;font-size:22px;
+    letter-spacing:.5px;text-transform:uppercase;color:var(--ink);
+    flex-shrink:0;
+  }
+  .logo span{color:var(--accent);}
+  .nav-links{
+    display:flex;align-items:center;gap:28px;
+    font-size:14.5px;font-weight:600;color:var(--ink-soft);
+  }
+  .nav-links a{padding:6px 2px;border-bottom:2px solid transparent;transition:color .15s, border-color .15s;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-links a.active{color:var(--ink);border-color:var(--accent);}
+  .header-cta{flex-shrink:0;}
+  .menu-toggle{
+    display:none;background:none;border:1px solid var(--rule);border-radius:8px;
+    width:40px;height:40px;font-size:18px;color:var(--ink);cursor:pointer;flex-shrink:0;
+  }
+
+  @media (max-width: 780px){
+    .nav-links{
+      position:fixed;top:65px;left:0;right:0;
+      background:var(--surface);border-bottom:1px solid var(--rule);
+      flex-direction:column;align-items:flex-start;gap:0;
+      padding:8px 24px 18px;
+      transform:translateY(-8px);opacity:0;pointer-events:none;
+      transition:opacity .18s ease, transform .18s ease;
+    }
+    .nav-links.open{transform:translateY(0);opacity:1;pointer-events:auto;box-shadow:var(--shadow);}
+    .nav-links a{width:100%;padding:12px 0;border-bottom:1px solid var(--rule);}
+    .nav-links a:last-child{border-bottom:none;}
+    .header-cta{display:none;}
+    .menu-toggle{display:block;}
+  }
+
+  /* ---------- Pages ---------- */
+  .page{display:none;}
+  .page.active{display:block;animation:pageIn .35s ease both;}
+  @keyframes pageIn{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .page.active{animation:none;}
+  }
+
+  .hero{padding:72px 0 56px;}
+  .hero h1{font-size:clamp(38px,6vw,64px);max-width:14ch;}
+  .hero p{font-size:18px;color:var(--ink-soft);max-width:58ch;margin:22px 0 30px;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;}
+
+  .section{padding:56px 0;}
+  .section-head{max-width:640px;margin-bottom:38px;}
+  .section-head h2{font-size:clamp(28px,4vw,40px);}
+  .section-head p{color:var(--ink-soft);font-size:16.5px;margin-top:14px;}
+  .section-alt{background:var(--surface);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+
+  .kerb-tags{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+  .kerb-tag{
+    font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.6px;
+    background:var(--accent-soft);color:var(--accent);padding:6px 12px;border-radius:999px;
+  }
+
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media (max-width:900px){.grid-4{grid-template-columns:repeat(2,1fr);} .grid-3{grid-template-columns:1fr;}}
+  @media (max-width:560px){.grid-4{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--surface);border:1px solid var(--rule);border-radius:14px;
+    padding:24px 22px;box-shadow:var(--shadow);
+  }
+  .card h3{font-size:19px;text-transform:none;font-weight:700;letter-spacing:0;margin-bottom:8px;font-family:var(--sans);}
+  .card p{color:var(--ink-soft);font-size:14.8px;margin:0;}
+  .card .num{
+    font-family:var(--mono);color:var(--accent);font-weight:600;font-size:13px;
+    margin-bottom:10px;display:block;
+  }
+
+  .steps{counter-reset:step;display:flex;flex-direction:column;gap:0;}
+  .step{
+    display:flex;gap:22px;padding:26px 0;border-bottom:1px solid var(--rule);
+  }
+  .step:last-child{border-bottom:none;}
+  .step-num{
+    font-family:var(--display);font-size:34px;font-weight:800;color:var(--accent);
+    width:56px;flex-shrink:0;
+  }
+  .step h3{font-size:20px;text-transform:none;font-weight:700;font-family:var(--sans);margin-bottom:6px;}
+  .step p{color:var(--ink-soft);margin:0;max-width:52ch;}
+
+  .about-block{display:flex;gap:40px;align-items:flex-start;flex-wrap:wrap;}
+  .about-photo{
+    width:120px;height:120px;border-radius:16px;flex-shrink:0;
+    background:linear-gradient(155deg,var(--accent),#f08a5f);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);color:#fff;font-size:38px;font-weight:800;
+    box-shadow:var(--shadow);
+  }
+  .about-text h3{font-size:15px;text-transform:uppercase;letter-spacing:1px;color:var(--ink-soft);font-weight:700;margin-bottom:6px;font-family:var(--mono);}
+  .about-text p{font-size:17px;max-width:62ch;color:var(--ink);}
+
+  .why-list{display:flex;flex-direction:column;gap:0;margin-top:10px;}
+  .why-item{display:flex;gap:20px;padding:22px 0;border-top:1px solid var(--rule);}
+  .why-item:last-child{border-bottom:1px solid var(--rule);}
+  .why-num{font-family:var(--mono);color:var(--accent);font-weight:600;font-size:14px;width:34px;flex-shrink:0;padding-top:2px;}
+  .why-item h3{font-size:18px;text-transform:none;font-weight:700;font-family:var(--sans);margin-bottom:4px;}
+  .why-item p{color:var(--ink-soft);margin:0;max-width:56ch;font-size:15px;}
+
+  .coverage-towns{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;}
+  .town{
+    background:var(--surface);border:1px solid var(--rule);border-radius:999px;
+    padding:8px 16px;font-size:14px;font-weight:600;color:var(--ink);
+  }
+  .town.more{color:var(--ink-soft);font-weight:500;border-style:dashed;}
+
+  .faq-item{border-bottom:1px solid var(--rule);}
+  .faq-item:first-child{border-top:1px solid var(--rule);}
+  .faq-q{
+    width:100%;text-align:left;background:none;border:none;cursor:pointer;
+    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    padding:22px 2px;font-family:var(--sans);font-size:17px;font-weight:700;color:var(--ink);
+  }
+  .faq-q .plus{font-family:var(--mono);color:var(--accent);font-size:20px;flex-shrink:0;transition:transform .2s ease;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+  .faq-item.open .faq-a{max-height:200px;}
+  .faq-a p{color:var(--ink-soft);padding:0 2px 22px;margin:0;max-width:60ch;font-size:15.5px;}
+
+  .cta-band{
+    background:var(--ink);color:#fff;border-radius:20px;padding:48px 40px;
+    display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+    margin:56px 0;
+  }
+  .cta-band h2{color:#fff;font-size:clamp(24px,3.4vw,34px);max-width:16ch;}
+  .cta-band p{color:#B9C4CC;margin:10px 0 0;max-width:40ch;}
+
+  .site-footer{border-top:1px solid var(--rule);padding:40px 0 32px;margin-top:20px;}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;}
+  .footer-brand{font-family:var(--display);font-weight:800;font-size:18px;text-transform:uppercase;}
+  .footer-brand span{color:var(--accent);}
+  .footer-meta{color:var(--ink-soft);font-size:13.5px;font-family:var(--mono);}
+  .footer-right{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+  .footer-phone{font-family:var(--mono);font-weight:600;font-size:14px;color:var(--ink);}
+</style>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="#/">KERB<span>2</span>KERB</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#/" data-route="/">Home</a>
+      <a href="#/services" data-route="/services">Services</a>
+      <a href="#/how-it-works" data-route="/how-it-works">How it works</a>
+      <a href="#/about" data-route="/about">About</a>
+      <a href="#/faq" data-route="/faq">FAQ</a>
+    </nav>
+    <a class="btn btn-whatsapp btn-sm header-cta" href="https://wa.me/447926438553" target="_blank" rel="noopener">Message on WhatsApp</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu">&#9776;</button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HOME -->
+  <section class="page" data-page="/">
+    <div class="hero">
+      <span class="eyebrow">Southampton &amp; surrounding area</span>
+      <h1>Your kerb. Their kerb. Sorted.</h1>
+      <p>Door-to-door transfers by van — kerb to kerb, nothing in between. No depot, no handoffs. Cruise luggage, airport runs, house and office removals, or anything else that needs to move. One driver, one van, direct contact.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="https://wa.me/447926438553" target="_blank" rel="noopener">Get a quote on WhatsApp</a>
+        <a class="btn btn-ghost" href="#/services">See what we move</a>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:8px;">
+      <div class="kerb-tags"><span class="kerb-tag">YOUR KERB</span><span class="kerb-tag">THEIR KERB</span></div>
+      <div class="section-head" style="margin-bottom:28px;">
+        <h2>Five kinds of job, one van.</h2>
+        <p>If it needs to get from one address to another in or around Southampton, chances are it fits one of these.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card"><h3>Cruise port transfers</h3><p>Cases collected from home and taken straight to the terminal — timed around your sailing, not a fixed schedule.</p></div>
+        <div class="card"><h3>Airport runs</h3><p>Luggage to Southampton Airport or further afield, timed around early flights and late landings — dropped at the terminal, no third-party handling.</p></div>
+        <div class="card"><h3>Home &amp; office removals</h3><p>Small moves, single rooms, or a van-load of boxes — no job too small to quote.</p></div>
+        <div class="card"><h3>Luggage &amp; parcel runs</h3><p>One-off collections and drop-offs — student move-outs, event kit, anything bulky that won't fit a courier bag.</p></div>
+        <div class="card"><h3>Priority business courier</h3><p>Time-critical or high-value items, moved same-day, direct — booked in advance, carried by one driver the whole way.</p></div>
+      </div>
+    </div>
+
+    <div class="section section-alt" style="margin:0 -24px;padding:56px 24px;">
+      <div class="wrap" style="padding:0;">
+        <div class="section-head" style="margin-bottom:0;">
+          <span class="eyebrow">How it works</span>
+          <h2>Three messages, then it's handled.</h2>
+        </div>
+        <div class="steps" style="margin-top:18px;">
+          <div class="step"><div class="step-num">1</div><div><h3>Send the details</h3><p>Pickup address, destination, date and time, and what's being moved. A photo helps if it's an odd-shaped job.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div><h3>Get a price</h3><p>A straight quote back on WhatsApp, usually within a few hours — no call centre, no hold music.</p></div></div>
+          <div class="step"><div class="step-num">3</div><div><h3>It gets picked up</h3><p>Turn up on time, load it, deliver it. You get a message when it's dropped off.</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <div>
+        <h2>Get moving.</h2>
+        <p>Tell us what needs to move. Message the details on WhatsApp and get a straight price back — no forms, no sign-up.</p>
+      </div>
+      <a class="btn btn-whatsapp" href="https://wa.me/447926438553" target="_blank" rel="noopener">Message on WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="page" data-page="/services">
+    <div class="section" style="padding-top:48px;">
+      <span class="eyebrow">What moves</span>
+      <div class="kerb-tags"><span class="kerb-tag">YOUR KERB</span><span class="kerb-tag">THEIR KERB</span></div>
+      <div class="section-head">
+        <h2>Five kinds of job, one van.</h2>
+        <p>If it needs to get from one address to another in or around Southampton, chances are it fits one of these. Not sure yours does? Ask anyway — most things do.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card"><span class="num">01</span><h3>Cruise port transfers</h3><p>Cases collected from home and taken straight to the terminal — timed around your sailing, not a fixed schedule. No dragging luggage through a car park or splitting a taxi with strangers.</p></div>
+        <div class="card"><span class="num">02</span><h3>Airport runs</h3><p>Luggage to Southampton Airport or further afield, timed around early flights and late landings — dropped straight at the terminal, no third-party handling. Door to terminal, one trip.</p></div>
+        <div class="card"><span class="num">03</span><h3>Home &amp; office removals</h3><p>Small moves, single rooms, or a van-load of boxes — no job too small to quote. Ideal for a flat move, a single item, or a student clearing out halls.</p></div>
+        <div class="card"><span class="num">04</span><h3>Luggage &amp; parcel runs</h3><p>One-off collections and drop-offs — student move-outs, event kit, anything bulky that won't fit a courier bag or fit in a normal car.</p></div>
+        <div class="card"><span class="num">05</span><h3>Priority business courier</h3><p>For businesses that can't risk a late delivery or a random subcontractor — an urgent part, stock that needs to be somewhere today, documents that have to arrive signed. Booked in advance for a guaranteed same-day slot, carried kerb to kerb by the same person who quoted it, start to finish.</p></div>
+      </div>
+      <div class="cta-band">
+        <div>
+          <h2>Not sure which one?</h2>
+          <p>Send a message with what needs moving and where — you'll get a straight answer, not a form to fill in.</p>
+        </div>
+        <a class="btn btn-whatsapp" href="https://wa.me/447926438553" target="_blank" rel="noopener">Message on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="page" data-page="/how-it-works">
+    <div class="section" style="padding-top:48px;">
+      <span class="eyebrow">How it works</span>
+      <div class="section-head">
+        <h2>Three messages, then it's handled.</h2>
+        <p>No account to create, no app to download. The whole booking happens over WhatsApp, start to finish.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div><h3>Send the details</h3><p>Pickup address, destination, date and time, and what's being moved. A photo helps if it's an odd-shaped job or you're not sure it'll fit.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div><h3>Get a price</h3><p>A straight quote back on WhatsApp, usually within a few hours — no call centre, no hold music, no waiting on a callback.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div><h3>It gets picked up</h3><p>Turn up on time, load it, deliver it. You get a message when it's dropped off, so you're never left wondering where it is.</p></div></div>
+      </div>
+      <div class="cta-band">
+        <div>
+          <h2>Ready when you are.</h2>
+          <p>Message the details on WhatsApp and get a straight price back — no forms, no sign-up.</p>
+        </div>
+        <a class="btn btn-whatsapp" href="https://wa.me/447926438553" target="_blank" rel="noopener">Message on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="page" data-page="/about">
+    <div class="section" style="padding-top:48px;">
+      <span class="eyebrow">About</span>
+      <div class="section-head">
+        <h2>Not a company. Just James.</h2>
+      </div>
+      <div class="about-block">
+        <div class="about-photo">JH</div>
+        <div class="about-text">
+          <h3>James Hickman</h3>
+          <p>Southampton-based, self-employed, and already driving professionally across the city every day. Kerb2Kerb is one driver and one van — the person who quotes your job, turns up to collect it, and drops it off is the same person throughout. No call centre, no subcontractors, no stranger you've never spoken to handling your things.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:8px;">
+      <span class="eyebrow">Why Kerb2Kerb</span>
+      <div class="section-head" style="margin-bottom:0;">
+        <h2>Not a parcel network.</h2>
+      </div>
+      <div class="why-list">
+        <div class="why-item"><div class="why-num">01</div><div><h3>Kerb to kerb, nothing in between</h3><p>No depot, no sorting hub, no handing your things off to someone else. It goes from where you are to where it needs to be.</p></div></div>
+        <div class="why-item"><div class="why-num">02</div><div><h3>Timed around you</h3><p>Early sailings, late flights, awkward move-out dates — jobs get scheduled around real departure times, not office hours.</p></div></div>
+        <div class="why-item"><div class="why-num">03</div><div><h3>Insured for the job, not just the drive</h3><p>Covered for goods in transit and hire and reward work — the cover that actually applies to carrying other people's belongings, not just standard van insurance.</p></div></div>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:8px;">
+      <span class="eyebrow">Coverage</span>
+      <div class="section-head" style="margin-bottom:0;">
+        <h2>Based in Southampton.</h2>
+        <p>Centred on Southampton Cruise Terminals and Southampton Airport, running throughout the surrounding area. Further afield? Ask anyway.</p>
+      </div>
+      <div class="coverage-towns">
+        <span class="town">Southampton</span><span class="town">Eastleigh</span><span class="town">Totton</span>
+        <span class="town">Hedge End</span><span class="town">Fareham</span><span class="town">Portsmouth</span>
+        <span class="town">Winchester</span><span class="town more">+ beyond, on request</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="page" data-page="/faq">
+    <div class="section" style="padding-top:48px;">
+      <span class="eyebrow">Before you book</span>
+      <div class="section-head">
+        <h2>Worth answering upfront.</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q"><span>Is my luggage insured while it's with you?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Yes — goods in transit cover applies for the whole journey, kerb to kerb.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>What if my flight or sailing time changes?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Message as soon as you know. Jobs are scheduled around real departure times, not fixed slots, so changes get worked around wherever possible.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q"><span>How and when do I pay?</span><span class="plus">+</span></button>
+          <div class="faq-a"><p>Price is agreed upfront on WhatsApp before anything is booked, so there are no surprise costs on the day.</p></div>
+        </div>
+      </div>
+      <div class="cta-band">
+        <div>
+          <h2>Still have a question?</h2>
+          <p>Just ask on WhatsApp — you'll get a reply from James directly, not a bot.</p>
+        </div>
+        <a class="btn btn-whatsapp" href="https://wa.me/447926438553" target="_blank" rel="noopener">Message on WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="footer-brand">KERB<span>2</span>KERB</div>
+      <div class="footer-meta">Southampton — kerb to kerb, sorted.</div>
+    </div>
+    <div class="footer-right">
+      <span class="footer-phone">07926 438553</span>
+      <a class="btn btn-whatsapp btn-sm" href="https://wa.me/447926438553" target="_blank" rel="noopener">Message on WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
+    var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
+    var navEl = document.getElementById('navLinks');
+    var toggle = document.getElementById('menuToggle');
+
+    function route(){
+      var hash = location.hash.replace('#','') || '/';
+      var found = false;
+      pages.forEach(function(p){
+        var match = p.getAttribute('data-page') === hash;
+        p.classList.toggle('active', match);
+        if(match) found = true;
+      });
+      if(!found){
+        pages.forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-page') === '/'); });
+      }
+      navLinks.forEach(function(a){
+        a.classList.toggle('active', a.getAttribute('data-route') === hash);
+      });
+      navEl.classList.remove('open');
+      window.scrollTo(0,0);
+    }
+
+    window.addEventListener('hashchange', route);
+    document.addEventListener('DOMContentLoaded', route);
+    route();
+
+    toggle.addEventListener('click', function(){
+      navEl.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.faq-q').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        btn.parentElement.classList.toggle('open');
+      });
+    });
+  })();
+</script>
