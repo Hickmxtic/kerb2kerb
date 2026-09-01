@@ -1,0 +1,2035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kerb2Kerb Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  /* Committed dark "mission control" theme — no light variant by design. */
+  :root {
+    --bg: #050B14;
+    --surface: rgba(16, 31, 53, 0.88);
+    --surface-alt: rgba(23, 43, 71, 0.82);
+    --surface-solid: #101F35;
+    --ink: #EAF3FA;
+    --ink-soft: #9FB8CC;
+    --ink-faint: #5D7690;
+    --border: rgba(125, 232, 255, 0.22);
+    --accent: #6BE4FF;
+    --accent-ink: #06111F;
+    --accent-soft: rgba(107, 228, 255, 0.14);
+    --brand: #FF7A3D;
+    --error: #FF6B6B;
+    --error-soft: rgba(255, 107, 107, 0.14);
+    --success: #6FE7B7;
+    --success-soft: rgba(111, 231, 183, 0.14);
+    --warning: #F2C572;
+    --warning-soft: rgba(242, 197, 114, 0.14);
+    --c-content: #B39DFF;
+    --c-ideas: #F2C572;
+    --c-debt: #6FE7B7;
+    --c-ie: #FF8A65;
+    --c-portfolio: #7C9CFF;
+    --shadow: 0 0 0 1px rgba(107,228,255,0.06), 0 12px 40px rgba(0,0,0,0.55), 0 0 26px rgba(107,228,255,0.05);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(ellipse 1100px 800px at 18% -8%, rgba(107,228,255,0.12), transparent 60%),
+      radial-gradient(ellipse 900px 700px at 100% 8%, rgba(255,122,61,0.07), transparent 55%),
+      radial-gradient(1px 1px at 20% 30%, rgba(234,243,250,0.55) 50%, transparent 51%),
+      radial-gradient(1px 1px at 70% 65%, rgba(234,243,250,0.4) 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 45% 82%, rgba(234,243,250,0.45) 50%, transparent 51%),
+      radial-gradient(1px 1px at 85% 22%, rgba(234,243,250,0.35) 50%, transparent 51%),
+      radial-gradient(1px 1px at 10% 78%, rgba(234,243,250,0.3) 50%, transparent 51%),
+      linear-gradient(180deg, #050B14 0%, #081525 100%);
+    background-repeat: no-repeat, no-repeat, repeat, repeat, repeat, repeat, repeat, no-repeat;
+    background-size: 100% 100%, 100% 100%, 260px 260px, 320px 320px, 300px 300px, 280px 280px, 340px 340px, 100% 100%;
+    background-attachment: fixed, fixed, fixed, fixed, fixed, fixed, fixed, fixed;
+    color: var(--ink);
+    font-family: 'Rajdhani', system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 48px;
+  }
+
+  a { color: inherit; }
+
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  input, select, button, textarea { font-family: inherit; }
+  input[type="number"] { font-variant-numeric: tabular-nums; }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* ---- topbar ---- */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .topbar-inner {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.9rem 16px;
+    flex-wrap: wrap;
+  }
+  .brand {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-shadow: 0 0 18px rgba(107,228,255,0.35);
+  }
+  .brand .dot { color: var(--brand); text-shadow: 0 0 12px var(--brand); }
+  .topbar-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  main { padding-top: 20px; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--panel-accent, var(--accent));
+    font-weight: 600;
+  }
+
+  h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: 0.01em;
+    margin: 0.2rem 0 0;
+  }
+
+  h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin: 0 0 0.7rem;
+  }
+
+  h4 {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.86rem;
+    margin: 0 0 0.6rem;
+    color: var(--ink-soft);
+  }
+
+  /* ---- overview strip ---- */
+  .overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .ov-tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(12px);
+    padding: 12px 14px;
+    min-width: 0;
+  }
+  .ov-tile-wide { grid-column: span 2; }
+  @media (max-width: 480px) {
+    .ov-tile-wide { grid-column: span 1; }
+  }
+  .ov-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 4px;
+  }
+  .ov-value {
+    font-size: 1.05rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+  .ov-value.ov-muted {
+    color: var(--ink-faint);
+    font-weight: 500;
+    font-size: 0.92rem;
+  }
+  .ov-sub {
+    font-size: 0.76rem;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  .text-success { color: var(--success); }
+  .text-error { color: var(--error); }
+  .text-warning { color: var(--warning); }
+
+  /* ---- panels ---- */
+  .panel {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(16px) saturate(140%);
+    padding: 20px;
+    margin-bottom: 18px;
+  }
+  .panel::before,
+  .panel::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-color: var(--panel-accent, var(--accent));
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .panel::before {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid;
+    border-left: 2px solid;
+    border-top-left-radius: 8px;
+  }
+  .panel::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    border-bottom-right-radius: 8px;
+  }
+  .panel-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .panel-head h2 { margin-right: auto; }
+
+  .live-pill {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--surface-alt);
+    color: var(--ink-faint);
+    white-space: nowrap;
+  }
+  .live-pill.is-live { background: var(--success-soft); color: var(--success); }
+  .live-pill.is-stale { background: var(--warning-soft); color: var(--warning); }
+  .live-pill.is-offline { background: var(--surface-alt); color: var(--ink-faint); }
+
+  .updated-note {
+    font-size: 0.72rem;
+    color: var(--ink-faint);
+    width: 100%;
+  }
+
+  .banner {
+    font-size: 0.85rem;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .banner-error { background: var(--error-soft); color: var(--error); }
+  .banner-warning { background: var(--warning-soft); color: var(--warning); }
+  .banner-muted { background: var(--surface-alt); color: var(--ink-soft); }
+
+  .empty-note {
+    color: var(--ink-faint);
+    font-size: 0.9rem;
+    padding: 10px 0;
+  }
+  .empty-note-sm {
+    color: var(--ink-faint);
+    font-size: 0.82rem;
+  }
+
+  /* ---- bookings ---- */
+  .bookings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .booking-item {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: var(--surface-alt);
+  }
+  .booking-item.booking-past { opacity: 0.55; }
+  .booking-when {
+    font-size: 0.76rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .booking-title { font-weight: 600; font-size: 0.95rem; }
+  .booking-loc, .booking-desc {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    margin-top: 3px;
+  }
+  .booking-link {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.76rem;
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: 6px;
+  }
+  .booking-link:hover { text-decoration: underline; }
+
+  /* ---- buttons ---- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 0.94rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: opacity 0.15s, background 0.15s, box-shadow 0.15s;
+  }
+  .btn:active { transform: scale(0.99); }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: 0 0 0 rgba(107,228,255,0); }
+  .btn-primary:hover { opacity: 0.92; box-shadow: 0 0 18px rgba(107,228,255,0.4); }
+  .btn-secondary { background: var(--surface-alt); color: var(--ink); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--border); }
+  .btn-ghost { border: 1px solid var(--border); color: var(--ink); background: transparent; }
+  .btn-ghost:hover { background: var(--surface-alt); }
+  .btn-block { width: 100%; }
+
+  /* ---- content section ---- */
+  .content-grid, .dual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 720px) {
+    .content-grid, .dual-grid { grid-template-columns: 1fr; }
+  }
+  .subcard {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    background: var(--surface-alt);
+  }
+  .subcard-cta { display: flex; flex-direction: column; }
+  .subcard-cta p { color: var(--ink-soft); font-size: 0.88rem; flex-grow: 1; }
+
+  .checklist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .checklist li {
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+    padding-left: 1.4em;
+    position: relative;
+  }
+  .checklist li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .honesty-note {
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    margin-top: 10px;
+  }
+
+  /* ---- build team ---- */
+  .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 900px) {
+    .agent-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 520px) {
+    .agent-grid { grid-template-columns: 1fr; }
+  }
+  .agent-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    background: var(--surface-alt);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .agent-step {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .agent-card h3 { margin: 0; font-size: 1.05rem; }
+  .agent-role { font-size: 0.85rem; color: var(--ink-soft); margin: 0; }
+  .agent-work {
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 10px 0 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .agent-work-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+  }
+  .agent-work li {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    padding-left: 1.1em;
+    position: relative;
+  }
+  .agent-work li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--ink-faint);
+  }
+
+  /* ---- idea generator ---- */
+  .idea-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    background: var(--surface-alt);
+    text-align: center;
+  }
+  .idea-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .idea-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    max-width: 46ch;
+    margin: 0 auto 16px;
+    text-wrap: balance;
+  }
+  .idea-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ---- forms ---- */
+  label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 5px;
+  }
+  .field-row { margin-bottom: 12px; }
+  .field-row-inline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .field-row-inline .field-row { margin-bottom: 0; flex: 1; }
+  .saved-note {
+    font-size: 0.74rem;
+    color: var(--success);
+    min-height: 1em;
+    margin: 4px 0 12px;
+  }
+
+  input[type="text"], input[type="number"], input[type="date"], input[type="month"], select {
+    width: 100%;
+    font-size: 0.92rem;
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: var(--surface);
+    color: var(--ink);
+    outline: none;
+  }
+  input:focus, select:focus { border-color: var(--accent); }
+
+  .prefix-wrap { position: relative; }
+  .prefix-wrap .symbol {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--ink-faint);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.92rem;
+    pointer-events: none;
+  }
+  .prefix-wrap input { padding-left: 24px; }
+
+  .row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  @media (max-width: 420px) {
+    .row2 { grid-template-columns: 1fr; }
+  }
+
+  .log-form { margin: 14px 0; display: flex; flex-direction: column; gap: 8px; }
+  .log-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  @media (max-width: 420px) {
+    .log-form-row { grid-template-columns: 1fr; }
+  }
+
+  /* ---- progress ---- */
+  .progress-block { margin: 14px 0; }
+  .progress-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+  .bar {
+    height: 9px;
+    border-radius: 999px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--success);
+    border-radius: 999px;
+    transition: width 0.2s ease;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.76rem;
+    color: var(--ink-faint);
+    margin-top: 6px;
+  }
+
+  /* ---- entry lists ---- */
+  .entry-list {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 260px;
+    overflow-y: auto;
+  }
+  .entry-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    padding: 8px 10px;
+    border-radius: 7px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .entry-empty {
+    list-style: none;
+    color: var(--ink-faint);
+    font-size: 0.85rem;
+    padding: 8px 2px;
+  }
+  .entry-date { color: var(--ink-faint); flex-shrink: 0; }
+  .entry-amount { font-weight: 600; flex-shrink: 0; }
+  .entry-note { color: var(--ink-soft); flex: 1; min-width: 80px; }
+  .entry-cat { color: var(--ink-soft); flex: 1; min-width: 80px; }
+  .entry-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+  .tag-success { background: var(--success-soft); color: var(--success); }
+  .tag-neutral { background: var(--surface-alt); color: var(--ink-soft); }
+
+  .icon-btn {
+    margin-left: auto;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--ink-faint);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0;
+  }
+  .icon-btn:hover { border-color: var(--error); color: var(--error); }
+
+  /* ---- income/expense ---- */
+  .ie-controls { margin-bottom: 14px; max-width: 220px; }
+  .ie-totals {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .stat {
+    background: var(--surface-alt);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .stat span:first-child {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-faint);
+  }
+  .stat span:last-child { font-size: 1rem; font-weight: 700; }
+  .stat-net { background: var(--accent-soft); }
+
+  .ie-form { margin-bottom: 18px; }
+
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 600px) {
+    .breakdown-grid { grid-template-columns: 1fr; }
+  }
+  .bars { display: flex; flex-direction: column; gap: 8px; }
+  .bar-item { font-size: 0.8rem; }
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3px;
+    color: var(--ink-soft);
+  }
+  .bar-track {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--surface-alt);
+    overflow: hidden;
+  }
+  .bar-track-fill { height: 100%; border-radius: 999px; }
+  .bar-fill-success { background: var(--success); }
+  .bar-fill-neutral { background: var(--ink-faint); }
+
+  /* ---- portfolio table ---- */
+  .section-note {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    background: var(--surface-alt);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin: 0 0 16px;
+  }
+  .table-scroll { overflow-x: auto; margin-bottom: 16px; }
+  .data-table {
+    width: 100%;
+    min-width: 620px;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  .data-table th {
+    text-align: left;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .data-table tfoot td {
+    border-bottom: none;
+    border-top: 2px solid var(--border);
+    font-weight: 700;
+    padding-top: 10px;
+  }
+  .cell-input {
+    width: 90px;
+    padding: 6px 8px;
+    font-size: 0.85rem;
+  }
+  .data-table .prefix-wrap .cell-input { padding-left: 22px; width: 100px; }
+  .add-holding-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 8px;
+    align-items: end;
+  }
+  @media (max-width: 720px) {
+    .add-holding-form { grid-template-columns: 1fr 1fr; }
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    margin-top: 24px;
+    padding: 0 16px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  /* ---- orbital diagram (build team) ---- */
+  .orbital-wrap {
+    margin-bottom: 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(107,228,255,0.06), transparent 70%);
+    padding: 6px 6px 0;
+    overflow: hidden;
+  }
+  .orbital-svg { display: block; width: 100%; height: auto; }
+  .orbital-ring { fill: none; stroke: var(--border); stroke-width: 1; }
+  .orbital-ring-group { transform-box: view-box; transform-origin: 400px 42px; animation: orbital-rotate 50s linear infinite; }
+  .orbital-line { fill: none; stroke: var(--accent); stroke-width: 1.6; opacity: 0.5; stroke-dasharray: 3 5; animation: orbital-dash 2.2s linear infinite; }
+  .orbital-hub-glow { fill: var(--accent); opacity: 0.2; transform-box: fill-box; transform-origin: center; animation: hub-pulse 2.6s ease-in-out infinite; }
+  .orbital-hub { fill: var(--accent); }
+  .orbital-pulse-dot { fill: #FFFFFF; filter: drop-shadow(0 0 4px var(--accent)); }
+  .orbital-node { transform-box: fill-box; transform-origin: center; animation: node-pulse 3s ease-in-out infinite; }
+  .orbital-node-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    fill: #06111F;
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+  .orbital-role-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    fill: var(--ink-faint);
+    text-anchor: middle;
+    text-transform: uppercase;
+  }
+  @keyframes orbital-dash {
+    to { stroke-dashoffset: -16; }
+  }
+  @keyframes orbital-rotate {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes hub-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.2; }
+    50% { transform: scale(1.5); opacity: 0.4; }
+  }
+  @keyframes node-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.07); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner wrap">
+    <div class="brand">Kerb<span class="dot">2</span>Kerb</div>
+    <div class="topbar-sub">Dashboard</div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- 1. Overview strip -->
+  <section class="overview" aria-label="Overview">
+    <div class="ov-tile">
+      <div class="ov-label">Today</div>
+      <div class="ov-value" id="ovToday">—</div>
+    </div>
+    <div class="ov-tile">
+      <div class="ov-label">Debt remaining</div>
+      <div class="ov-value ov-muted" id="ovDebt">Not set</div>
+      <div class="ov-sub" id="ovDebtSub"></div>
+    </div>
+    <div class="ov-tile">
+      <div class="ov-label">Emergency fund</div>
+      <div class="ov-value ov-muted" id="ovFund">Not set</div>
+      <div class="ov-sub" id="ovFundSub"></div>
+    </div>
+    <div class="ov-tile">
+      <div class="ov-label">This month</div>
+      <div class="ov-value ov-muted" id="ovNet">No entries yet</div>
+      <div class="ov-sub" id="ovNetSub"></div>
+    </div>
+    <div class="ov-tile ov-tile-wide">
+      <div class="ov-label">Next booking</div>
+      <div class="ov-value ov-muted" id="ovBooking">Loading…</div>
+    </div>
+  </section>
+
+  <!-- 2. Bookings (live via MCP) -->
+  <section class="panel" id="bookingsPanel">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow">Kerb2Kerb</div>
+        <h2>Bookings</h2>
+      </div>
+      <span class="live-pill" id="bookingsLivePill">● Checking…</span>
+      <span class="updated-note" id="bookingsUpdated" hidden></span>
+    </div>
+    <div class="banner" id="bookingsBanner" hidden></div>
+    <div class="bookings-list" id="bookingsList">
+      <p class="empty-note">Loading your calendar…</p>
+    </div>
+  </section>
+
+  <!-- 3. Content -->
+  <section class="panel" style="--panel-accent: var(--c-content)">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow">Growth</div>
+        <h2>Content</h2>
+      </div>
+    </div>
+    <div class="content-grid">
+      <div class="subcard">
+        <h3>Posting cadence</h3>
+        <ul class="checklist">
+          <li>3–4 posts a week, minimum, to stay visible</li>
+          <li>Mix personal (grind / build / van life) with Kerb2Kerb business content</li>
+          <li>One growth move a week — not just a post, an action</li>
+          <li>Reply to every comment and DM within 24 hours</li>
+        </ul>
+      </div>
+      <div class="subcard subcard-cta">
+        <h3>Post it</h3>
+        <p>Postiz isn't connected to this dashboard — this can't pull your scheduled posts live. Open it directly when you're ready to post.</p>
+        <a class="btn btn-primary btn-block" href="https://app.postiz.com" target="_blank" rel="noopener">Open Postiz</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Idea Generator -->
+  <section class="panel" style="--panel-accent: var(--c-ideas)">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow">Content ideas</div>
+        <h2>Idea Generator</h2>
+      </div>
+    </div>
+    <div class="idea-card">
+      <div class="idea-tag" id="ideaTag">Ready when you are</div>
+      <div class="idea-text" id="ideaText">Tap the button for a content idea from your manifest.</div>
+      <div class="idea-actions">
+        <button class="btn btn-primary" id="ideaBtn">Give me an idea</button>
+        <a class="btn btn-ghost" href="https://claude.ai/code/artifact/f719d203-6313-41cb-b036-cc39e55f90f5" target="_blank" rel="noopener">Full Idea Manifest</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Debt & Emergency Fund -->
+  <section class="panel" style="--panel-accent: var(--c-debt)">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow">Money · priority one</div>
+        <h2>Debt &amp; Emergency Fund</h2>
+      </div>
+    </div>
+    <div class="dual-grid">
+
+      <div class="subcard" id="debtCard">
+        <h3>Debt to parents</h3>
+        <div class="field-row">
+          <label for="debtBalanceInput">Starting balance</label>
+          <div class="prefix-wrap">
+            <span class="symbol">£</span>
+            <input type="number" id="debtBalanceInput" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 3000">
+          </div>
+          <div class="saved-note" id="debtSavedNote"></div>
+        </div>
+
+        <div class="progress-block" id="debtProgressBlock" hidden>
+          <div class="progress-row"><span>Remaining</span><span class="mono" id="debtRemaining">£0.00</span></div>
+          <div class="bar"><div class="bar-fill" id="debtBarFill" style="width:0%"></div></div>
+          <div class="progress-meta"><span id="debtPercent">0% paid off</span><span class="mono" id="debtPaidTotal"></span></div>
+        </div>
+        <div class="empty-note" id="debtEmptyNote">Enter a starting balance above to start tracking payoff progress.</div>
+
+        <div class="log-form">
+          <div class="log-form-row">
+            <input type="date" id="debtPayDate">
+            <div class="prefix-wrap"><span class="symbol">£</span><input type="number" id="debtPayAmount" min="0" step="0.01" inputmode="decimal" placeholder="Amount"></div>
+          </div>
+          <input type="text" id="debtPayNote" placeholder="Note (optional)">
+          <button class="btn btn-secondary" id="debtPayBtn">Log payment</button>
+        </div>
+
+        <ul class="entry-list" id="debtPayList"></ul>
+      </div>
+
+      <div class="subcard" id="fundCard">
+        <h3>Emergency fund</h3>
+        <div class="field-row">
+          <label for="fundGoalInput">Goal</label>
+          <div class="prefix-wrap">
+            <span class="symbol">£</span>
+            <input type="number" id="fundGoalInput" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 1000">
+          </div>
+          <div class="saved-note" id="fundSavedNote"></div>
+        </div>
+
+        <div class="progress-block" id="fundProgressBlock" hidden>
+          <div class="progress-row"><span>Saved</span><span class="mono" id="fundBalance">£0.00</span></div>
+          <div class="bar"><div class="bar-fill" id="fundBarFill" style="width:0%"></div></div>
+          <div class="progress-meta"><span id="fundPercent">0% of goal</span><span class="mono" id="fundGoalNote"></span></div>
+        </div>
+        <div class="empty-note" id="fundEmptyNote">Enter a goal above to start tracking savings progress.</div>
+
+        <div class="log-form">
+          <div class="log-form-row">
+            <input type="date" id="fundDepositDate">
+            <div class="prefix-wrap"><span class="symbol">£</span><input type="number" id="fundDepositAmount" min="0" step="0.01" inputmode="decimal" placeholder="Amount"></div>
+          </div>
+          <input type="text" id="fundDepositNote" placeholder="Note (optional)">
+          <button class="btn btn-secondary" id="fundDepositBtn">Log deposit</button>
+        </div>
+
+        <ul class="entry-list" id="fundDepositList"></ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. Income & Expense Tracker -->
+  <section class="panel" style="--panel-accent: var(--c-ie)">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow">Money</div>
+        <h2>Income &amp; Expense Tracker</h2>
+      </div>
+    </div>
+
+    <div class="ie-controls field-row">
+      <label for="ieMonth">Month</label>
+      <input type="month" id="ieMonth">
+    </div>
+
+    <div class="ie-totals">
+      <div class="stat"><span>Income</span><span class="mono" id="ieIncomeTotal">£0.00</span></div>
+      <div class="stat"><span>Expenses</span><span class="mono" id="ieExpenseTotal">£0.00</span></div>
+      <div class="stat stat-net"><span>Net</span><span class="mono" id="ieNetTotal">£0.00</span></div>
+    </div>
+
+    <div class="ie-form">
+      <div class="row2">
+        <div><label for="ieDate">Date</label><input type="date" id="ieDate"></div>
+        <div><label for="ieType">Type</label>
+          <select id="ieType">
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label for="ieCategory">Category</label>
+          <input type="text" id="ieCategory" list="ieCategoryPresets" placeholder="e.g. Fuel, Amazon Flex">
+          <datalist id="ieCategoryPresets">
+            <option value="Amazon Flex pay">
+            <option value="Kerb2Kerb job">
+            <option value="Fuel">
+            <option value="Van maintenance">
+            <option value="Insurance">
+            <option value="Phone / data">
+            <option value="Food">
+            <option value="Other">
+          </datalist>
+        </div>
+        <div>
+          <label for="ieAmount">Amount</label>
+          <div class="prefix-wrap"><span class="symbol">£</span><input type="number" id="ieAmount" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></div>
+        </div>
+      </div>
+      <div class="field-row">
+        <label for="ieNote">Note (optional)</label>
+        <input type="text" id="ieNote" placeholder="Note (optional)">
+      </div>
+      <button class="btn btn-primary" id="ieAddBtn">Add entry</button>
+    </div>
+
+    <div class="breakdown-grid">
+      <div>
+        <h4>Income by category</h4>
+        <div class="bars" id="ieIncomeBreakdown"></div>
+      </div>
+      <div>
+        <h4>Expenses by category</h4>
+        <div class="bars" id="ieExpenseBreakdown"></div>
+      </div>
+    </div>
+
+    <ul class="entry-list" id="ieEntryList"></ul>
+  </section>
+
+  <!-- 7. Portfolio Tracker -->
+  <section class="panel" style="--panel-accent: var(--c-portfolio)">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow">Not active yet</div>
+        <h2>Portfolio Tracker</h2>
+      </div>
+    </div>
+    <p class="section-note">Manual for now — plug in real prices yourself until you're ready to reinvest. No live price lookups, nothing here calls out to the internet.</p>
+
+    <div class="table-scroll">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Holding</th>
+            <th>Shares</th>
+            <th>Cost basis</th>
+            <th>Current price</th>
+            <th>Market value</th>
+            <th>Gain / loss</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="portfolioBody"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">Total portfolio value</td>
+            <td class="mono" id="portfolioTotal">£0.00</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="add-holding-form">
+      <div><label for="pfName">Name / symbol</label><input type="text" id="pfName" placeholder="e.g. VWRP"></div>
+      <div><button class="btn btn-secondary btn-block" id="pfAddBtn">Add holding</button></div>
+    </div>
+  </section>
+
+  <!-- 8. Build Team -->
+  <section class="panel">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow">Behind the scenes</div>
+        <h2>Your Build Team</h2>
+      </div>
+    </div>
+    <p class="section-note">The four roles that build everything in here, in the order they run. What's listed under each one is real work they've actually done — not a demo.</p>
+
+    <div class="orbital-wrap">
+      <svg class="orbital-svg" viewBox="0 0 800 210" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Diagram: a central hub connects out to four agent nodes — Architect, Coder, Tester, Manager — pulsing along the connecting lines">
+        <g class="orbital-ring-group">
+          <ellipse class="orbital-ring" cx="400" cy="42" rx="380" ry="150"></ellipse>
+          <ellipse class="orbital-ring" cx="400" cy="42" rx="250" ry="100"></ellipse>
+        </g>
+        <line class="orbital-line" x1="400" y1="42" x2="100" y2="150"></line>
+        <line class="orbital-line" x1="400" y1="42" x2="300" y2="150"></line>
+        <line class="orbital-line" x1="400" y1="42" x2="500" y2="150"></line>
+        <line class="orbital-line" x1="400" y1="42" x2="700" y2="150"></line>
+        <circle class="orbital-pulse-dot" r="4"><animateMotion path="M400,42 L100,150" dur="2.4s" begin="0s" repeatCount="indefinite"></animateMotion></circle>
+        <circle class="orbital-pulse-dot" r="4"><animateMotion path="M400,42 L300,150" dur="2.4s" begin="0.6s" repeatCount="indefinite"></animateMotion></circle>
+        <circle class="orbital-pulse-dot" r="4"><animateMotion path="M400,42 L500,150" dur="2.4s" begin="1.2s" repeatCount="indefinite"></animateMotion></circle>
+        <circle class="orbital-pulse-dot" r="4"><animateMotion path="M400,42 L700,150" dur="2.4s" begin="1.8s" repeatCount="indefinite"></animateMotion></circle>
+        <circle class="orbital-hub-glow" cx="400" cy="42" r="26"></circle>
+        <circle class="orbital-hub" cx="400" cy="42" r="9"></circle>
+        <polygon class="orbital-node" points="126,135 126,165 100,180 74,165 74,135 100,120" style="fill:var(--accent); animation-delay:0s"></polygon>
+        <text class="orbital-node-label" x="100" y="150">AR</text>
+        <text class="orbital-role-label" x="100" y="196">Architect</text>
+        <polygon class="orbital-node" points="326,135 326,165 300,180 274,165 274,135 300,120" style="fill:var(--success); animation-delay:0.4s"></polygon>
+        <text class="orbital-node-label" x="300" y="150">CO</text>
+        <text class="orbital-role-label" x="300" y="196">Coder</text>
+        <polygon class="orbital-node" points="526,135 526,165 500,180 474,165 474,135 500,120" style="fill:var(--c-ie); animation-delay:0.8s"></polygon>
+        <text class="orbital-node-label" x="500" y="150">TE</text>
+        <text class="orbital-role-label" x="500" y="196">Tester</text>
+        <polygon class="orbital-node" points="726,135 726,165 700,180 674,165 674,135 700,120" style="fill:var(--c-content); animation-delay:1.2s"></polygon>
+        <text class="orbital-node-label" x="700" y="150">MA</text>
+        <text class="orbital-role-label" x="700" y="196">Manager</text>
+      </svg>
+    </div>
+
+    <div class="agent-grid">
+      <div class="agent-card">
+        <span class="agent-step">01 · ARCHITECT</span>
+        <h3>Architect</h3>
+        <p class="agent-role">Turns an idea into a build plan and asks the key questions before anything gets coded — this is Claude, directly, in your conversation.</p>
+        <ul class="agent-work">
+          <li class="agent-work-label">Recently scoped</li>
+          <li>Pricing calculator: job types, free vs. paid postcode lookup, callout + per-mile structure</li>
+          <li>Dashboard: debt vs. emergency fund run in parallel, portfolio manual-only, ideas surfaced from your manifest</li>
+          <li>Growth Toolkit: lead tracker + ad copy combined, plus an honest ads setup guide instead of live campaign management</li>
+        </ul>
+      </div>
+
+      <div class="agent-card">
+        <span class="agent-step">02 · CODER</span>
+        <h3>Coder</h3>
+        <p class="agent-role">Builds the actual thing from the Architect's plan. A fresh one spins up for each build — no memory between jobs, just the brief.</p>
+        <ul class="agent-work">
+          <li class="agent-work-label">Recently built</li>
+          <li>Pricing calculator, including the offline postcode-district dataset that replaced the live lookup</li>
+          <li>This dashboard — all 7 sections, live bookings, debt/fund/income tracking, portfolio</li>
+          <li>Growth Toolkit — lead tracker, ready-to-copy ad copy, and the ads setup guide</li>
+        </ul>
+      </div>
+
+      <div class="agent-card">
+        <span class="agent-step">03 · TESTER</span>
+        <h3>Tester</h3>
+        <p class="agent-role">Only job is breaking what the Coder just built. No credit for being nice about it.</p>
+        <ul class="agent-work">
+          <li class="agent-work-label">Recently caught</li>
+          <li>Calculator: a silent £0.00 quote when rates were left at zero, and a negative rate with no warning</li>
+          <li>Dashboard: a booking-panel freeze bug, a debt % mismatch, and unvalidated negative portfolio entries</li>
+          <li>Growth Toolkit: nothing — first clean pass this session, zero bugs found</li>
+        </ul>
+      </div>
+
+      <div class="agent-card">
+        <span class="agent-step">04 · MANAGER</span>
+        <h3>Manager</h3>
+        <p class="agent-role">Independently re-checks the Coder's and Tester's work, throws out false alarms, and gives the final ship / don't-ship call.</p>
+        <ul class="agent-work">
+          <li class="agent-work-label">Recently ruled on</li>
+          <li>Confirmed all 5 bugs the Tester found on this dashboard by reading the code directly, then set the fix order</li>
+          <li>Growth Toolkit: independently re-verified the Tester's zero-bug report and cleared it to ship as-is</li>
+          <li>Signs off before anything reaches you — nothing here shipped without a Manager pass</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="honesty-note">Straight answer: these cards can't hold a live conversation — a published page like this one has no way to run an actual chat. This is a real record of what each role has done, not a chatbot. To bring any of them back for new work, just ask in your conversation with Claude.</p>
+  </section>
+
+  <div class="footer">Kerb2Kerb Dashboard · everything here stays in this browser, except live bookings from Google Calendar</div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------------- helpers ---------------- */
+
+  function lsGet(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      if (!raw) return fallback;
+      var parsed = JSON.parse(raw);
+      return (parsed && typeof parsed === 'object') ? parsed : fallback;
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function lsSet(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {
+      // storage unavailable — data just won't persist this session
+    }
+  }
+
+  function uid() {
+    return 'id_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8);
+  }
+
+  function clamp(n, min, max) {
+    return Math.min(max, Math.max(min, n));
+  }
+
+  function escapeHtml(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function fmtGBP(n) {
+    if (n === null || n === undefined || isNaN(n)) return '—';
+    try {
+      return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(n);
+    } catch (e) {
+      return '£' + Number(n).toFixed(2);
+    }
+  }
+
+  function fmtGBPSigned(n) {
+    if (n === null || n === undefined || isNaN(n)) return '—';
+    var sign = n > 0 ? '+' : (n < 0 ? '−' : '');
+    return sign + fmtGBP(Math.abs(n));
+  }
+
+  function fmtPct(n) {
+    if (n === null || n === undefined || isNaN(n)) return '0%';
+    return Math.round(n) + '%';
+  }
+
+  function todayISO() {
+    var d = new Date();
+    var m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + '-' + (m < 10 ? '0' + m : m) + '-' + (day < 10 ? '0' + day : day);
+  }
+
+  function currentMonthStr() {
+    var d = new Date();
+    var m = d.getMonth() + 1;
+    return d.getFullYear() + '-' + (m < 10 ? '0' + m : m);
+  }
+
+  function fmtDateUK(dateStr) {
+    if (!dateStr) return '';
+    var d = new Date(dateStr + 'T00:00:00');
+    if (isNaN(d.getTime())) return dateStr;
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  function fmtTimeShort(d) {
+    return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function sumAmounts(list) {
+    return (list || []).reduce(function (sum, it) { return sum + (Number(it.amount) || 0); }, 0);
+  }
+
+  function flashSaved(elId) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    el.textContent = 'Saved.';
+    clearTimeout(el._flashTimer);
+    el._flashTimer = setTimeout(function () { el.textContent = ''; }, 2000);
+  }
+
+  function renderEntryList(containerId, items, noun) {
+    var el = document.getElementById(containerId);
+    if (!items || items.length === 0) {
+      el.innerHTML = '<li class="entry-empty">No ' + noun + ' logged yet.</li>';
+      return;
+    }
+    var sorted = items.slice().sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
+    el.innerHTML = sorted.map(function (it) {
+      return '<li class="entry-item">' +
+        '<span class="entry-date mono">' + escapeHtml(fmtDateUK(it.date)) + '</span>' +
+        '<span class="entry-amount mono">' + escapeHtml(fmtGBP(it.amount)) + '</span>' +
+        (it.note ? '<span class="entry-note">' + escapeHtml(it.note) + '</span>' : '') +
+        '<button class="icon-btn" data-action="delete" data-id="' + escapeHtml(it.id) + '" aria-label="Delete entry">✕</button>' +
+        '</li>';
+    }).join('');
+  }
+
+  /* ---------------- overview ---------------- */
+
+  function updateOverview() {
+    var todayEl = document.getElementById('ovToday');
+    todayEl.textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+    // debt
+    var ovDebtEl = document.getElementById('ovDebt');
+    var ovDebtSubEl = document.getElementById('ovDebtSub');
+    if (debtState.balance === null || debtState.balance === undefined) {
+      ovDebtEl.textContent = 'Not set';
+      ovDebtEl.className = 'ov-value ov-muted';
+      ovDebtSubEl.textContent = '';
+    } else {
+      var paid = sumAmounts(debtState.payments);
+      var remaining = Math.max(0, debtState.balance - paid);
+      var pctDebt = debtState.balance > 0 ? clamp((paid / debtState.balance) * 100, 0, 100) : (paid > 0 ? 100 : 0);
+      ovDebtEl.textContent = fmtGBP(remaining);
+      ovDebtEl.className = 'ov-value mono';
+      ovDebtSubEl.textContent = fmtPct(pctDebt) + ' paid off';
+    }
+
+    // emergency fund
+    var ovFundEl = document.getElementById('ovFund');
+    var ovFundSubEl = document.getElementById('ovFundSub');
+    if (fundState.goal === null || fundState.goal === undefined) {
+      ovFundEl.textContent = 'Not set';
+      ovFundEl.className = 'ov-value ov-muted';
+      ovFundSubEl.textContent = '';
+    } else {
+      var bal = sumAmounts(fundState.deposits);
+      var pctFund = fundState.goal > 0 ? clamp((bal / fundState.goal) * 100, 0, 100) : (bal > 0 ? 100 : 0);
+      ovFundEl.textContent = fmtGBP(bal) + ' / ' + fmtGBP(fundState.goal);
+      ovFundEl.className = 'ov-value mono';
+      ovFundSubEl.textContent = fmtPct(pctFund) + ' of goal';
+    }
+
+    // this month net
+    var ovNetEl = document.getElementById('ovNet');
+    var ovNetSubEl = document.getElementById('ovNetSub');
+    var curEntries = entriesForMonth(currentMonthStr());
+    if (curEntries.length === 0) {
+      ovNetEl.textContent = 'No entries yet';
+      ovNetEl.className = 'ov-value ov-muted';
+      ovNetSubEl.textContent = '';
+    } else {
+      var inc = sumAmounts(curEntries.filter(function (e) { return e.type === 'income'; }));
+      var exp = sumAmounts(curEntries.filter(function (e) { return e.type === 'expense'; }));
+      var net = inc - exp;
+      ovNetEl.textContent = fmtGBPSigned(net);
+      ovNetEl.className = 'ov-value mono ' + (net > 0 ? 'text-success' : (net < 0 ? 'text-error' : ''));
+      ovNetSubEl.textContent = fmtGBP(inc) + ' in · ' + fmtGBP(exp) + ' out';
+    }
+
+    // next booking
+    var ovBookingEl = document.getElementById('ovBooking');
+    if (!bookingsAvailable) {
+      ovBookingEl.textContent = 'Connect Google Calendar to see bookings here';
+      ovBookingEl.className = 'ov-value ov-muted';
+    } else {
+      var next = findNextBooking();
+      if (!next) {
+        ovBookingEl.textContent = lastGoodEvents ? 'No bookings scheduled' : 'Loading…';
+        ovBookingEl.className = 'ov-value ov-muted';
+      } else {
+        ovBookingEl.textContent = (next.summary || '(untitled booking)') + ' — ' + fmtEventDateTime(next.start);
+        ovBookingEl.className = 'ov-value';
+      }
+    }
+  }
+
+  /* ---------------- idea generator ---------------- */
+
+  var IDEAS = [
+    { category: 'Personal — The Grind', text: `POV: first parcel of the day vs the last one` },
+    { category: 'Personal — The Grind', text: `The address every driver dreads (keep it general, not identifiable)` },
+    { category: 'Personal — The Grind', text: `Rating the weirdest drop-off spots this week` },
+    { category: 'Personal — The Grind', text: `What's actually in the van — a quick tour` },
+    { category: 'Personal — The Grind', text: `Reacting to the worst parking situation of the day` },
+    { category: 'Personal — The Grind', text: `What a "debrief route" actually means, explained on camera` },
+    { category: 'Personal — The Grind', text: `A full shift, sped up, with real timestamps on screen` },
+    { category: 'Personal — The Grind', text: `The numbers from today's shift — miles, parcels, hours` },
+    { category: 'Personal — The Grind', text: `Weather that makes the job hell vs. the job easy` },
+    { category: 'Personal — The Grind', text: `Dog encounters of the week, ranked` },
+
+    { category: 'Personal — The Build', text: `Day 1 of learning SQL as a delivery driver` },
+    { category: 'Personal — The Build', text: `Explaining one SQL concept in 30 seconds, plain English` },
+    { category: 'Personal — The Build', text: `Analysing my own delivery data — first look at the numbers` },
+    { category: 'Personal — The Build', text: `What a JOIN actually is, explained like I'm five` },
+    { category: 'Personal — The Build', text: `Studying in the front seat between drops` },
+    { category: 'Personal — The Build', text: `Small win of the week in the learning` },
+    { category: 'Personal — The Build', text: `Reacting to my own first dashboard` },
+    { category: 'Personal — The Build', text: `The free resource I'm using and why it's actually good` },
+    { category: 'Personal — The Build', text: `The moment it finally clicked` },
+    { category: 'Personal — The Build', text: `30 days in — what I've learned vs. what I thought I'd learn` },
+
+    { category: 'Personal — Van Life / Kerb2Kerb', text: `Building the Kerb2Kerb site from scratch — screen recording` },
+    { category: 'Personal — Van Life / Kerb2Kerb', text: `What "kerb to kerb" actually means and why I called it that` },
+    { category: 'Personal — Van Life / Kerb2Kerb', text: `First ever booking — the reaction, unfiltered` },
+    { category: 'Personal — Van Life / Kerb2Kerb', text: `Loading the van properly — the Tetris of it` },
+    { category: 'Personal — Van Life / Kerb2Kerb', text: `Why I started a second business at 21` },
+    { category: 'Personal — Van Life / Kerb2Kerb', text: `The honest reality of starting with zero customers` },
+    { category: 'Personal — Van Life / Kerb2Kerb', text: `The story behind the name — the ones I rejected first` },
+    { category: 'Personal — Van Life / Kerb2Kerb', text: `What people don't realise about cruise luggage transfers` },
+    { category: 'Personal — Van Life / Kerb2Kerb', text: `Documenting "before I had a single customer," for later` },
+    { category: 'Personal — Van Life / Kerb2Kerb', text: `Prepping the van the night before a big cruise-day` },
+
+    { category: 'Personal — Life', text: `Florida trip recap / highlights` },
+    { category: 'Personal — Life', text: `Gym session — proof the discipline carries over` },
+    { category: 'Personal — Life', text: `21 and starting over — the honest version, no filter` },
+    { category: 'Personal — Life', text: `Replying to a comment or DM on camera` },
+    { category: 'Personal — Life', text: `A full "week in my life" — driving, studying, gym, van business` },
+    { category: 'Personal — Life', text: `First real milestone hit — whichever comes first` },
+
+    { category: 'Kerb2Kerb business content', text: `"Did you know" — what kerb to kerb actually means` },
+    { category: 'Kerb2Kerb business content', text: `Before/after: a hallway of luggage to a neatly loaded van` },
+    { category: 'Kerb2Kerb business content', text: `First customer testimonial, once you've got one — quote on screen is enough` },
+    { category: 'Kerb2Kerb business content', text: `"3 things people ask before booking" — quick FAQ-style clip` },
+    { category: 'Kerb2Kerb business content', text: `Behind the scenes of a cruise-day pickup (no faces, no addresses)` },
+    { category: 'Kerb2Kerb business content', text: `Founder intro — why this exists, pinned to the top of the page` },
+    { category: 'Kerb2Kerb business content', text: `How pricing actually works — message for a quote, no hidden costs` },
+    { category: 'Kerb2Kerb business content', text: `"Cruise season in one stat" — how many ships came through this week` },
+    { category: 'Kerb2Kerb business content', text: `Student move-in special` },
+    { category: 'Kerb2Kerb business content', text: `A simple "what we move" explainer covering all four job types` },
+
+    { category: 'Growth moves (researched, not guessed)', text: `Student move-in week — University of Southampton halls arrivals run 10-13 September 2026, thousands of students moving in. Worth a "student move-in help" post in Southampton parent/student Facebook groups in the first week of September.` },
+    { category: 'Growth moves (researched, not guessed)', text: `Cruise demand isn't seasonal — 14-15 ship movements a week right now at Southampton port. This is a build-repeat-customers business, not a one-off-rush business.` },
+    { category: 'Growth moves (researched, not guessed)', text: `Partner with local travel agents — a short intro message and a business card left with a couple of local cruise specialists costs nothing.` },
+    { category: 'Growth moves (researched, not guessed)', text: `Reach out to hotels & serviced apartments near the terminals — guests with early arrivals or delayed luggage are a recurring need.` },
+    { category: 'Growth moves (researched, not guessed)', text: `Marketplace/eBay collection-and-delivery — a large item the buyer can't collect themselves is a straightforward extra job type.` },
+    { category: 'Growth moves (researched, not guessed)', text: `A small "book again" discount for repeat cruisers costs little and turns a one-off job into a returning one.` },
+
+    { category: 'Ready-to-film scripts', text: `First parcel vs last parcel — a day-in-the-life bookend` },
+    { category: 'Ready-to-film scripts', text: `Day 1 of learning SQL as a delivery driver` },
+    { category: 'Ready-to-film scripts', text: `The story behind the Kerb2Kerb name` },
+    { category: 'Ready-to-film scripts', text: `How pricing actually works, explained on camera` },
+    { category: 'Ready-to-film scripts', text: `21 and starting over — the honest version` }
+  ];
+
+  var ideaBag = [];
+  var lastIdeaIdx = -1;
+
+  function refillIdeaBag() {
+    ideaBag = IDEAS.map(function (_, i) { return i; });
+    for (var i = ideaBag.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = ideaBag[i]; ideaBag[i] = ideaBag[j]; ideaBag[j] = t;
+    }
+    // nextIdea() pops from the end — if that slot matches the idea we just
+    // showed (from the previous bag), swap it away so it can never repeat
+    // back-to-back across a refill boundary.
+    var lastPos = ideaBag.length - 1;
+    if (ideaBag.length > 1 && ideaBag[lastPos] === lastIdeaIdx) {
+      var swapWith = Math.floor(Math.random() * lastPos);
+      var tmp = ideaBag[lastPos]; ideaBag[lastPos] = ideaBag[swapWith]; ideaBag[swapWith] = tmp;
+    }
+  }
+
+  function nextIdea() {
+    if (ideaBag.length === 0) refillIdeaBag();
+    var idx = ideaBag.pop();
+    lastIdeaIdx = idx;
+    return IDEAS[idx];
+  }
+
+  function setupIdeaGenerator() {
+    document.getElementById('ideaBtn').addEventListener('click', function () {
+      var idea = nextIdea();
+      document.getElementById('ideaTag').textContent = idea.category;
+      document.getElementById('ideaText').textContent = idea.text;
+    });
+  }
+
+  /* ---------------- debt ---------------- */
+
+  var DEBT_KEY = 'k2k_debt_v1';
+  var debtState = lsGet(DEBT_KEY, { balance: null, payments: [] });
+  if (!Array.isArray(debtState.payments)) debtState.payments = [];
+  if (debtState.balance === undefined) debtState.balance = null;
+
+  function setupDebt() {
+    var balanceInput = document.getElementById('debtBalanceInput');
+    if (debtState.balance !== null) balanceInput.value = debtState.balance;
+
+    balanceInput.addEventListener('change', function () {
+      var v = balanceInput.value;
+      if (v === '') {
+        debtState.balance = null;
+        lsSet(DEBT_KEY, debtState);
+      } else {
+        var n = parseFloat(v);
+        if (isNaN(n) || n < 0) {
+          balanceInput.value = debtState.balance !== null ? debtState.balance : '';
+          return;
+        }
+        debtState.balance = n;
+        lsSet(DEBT_KEY, debtState);
+      }
+      flashSaved('debtSavedNote');
+      renderDebt();
+      updateOverview();
+    });
+
+    document.getElementById('debtPayDate').value = todayISO();
+
+    document.getElementById('debtPayBtn').addEventListener('click', function () {
+      var dateEl = document.getElementById('debtPayDate');
+      var amtEl = document.getElementById('debtPayAmount');
+      var noteEl = document.getElementById('debtPayNote');
+      var amt = parseFloat(amtEl.value);
+      if (!amtEl.value || isNaN(amt) || amt <= 0) { amtEl.focus(); return; }
+      debtState.payments.push({ id: uid(), date: dateEl.value || todayISO(), amount: amt, note: (noteEl.value || '').trim() });
+      lsSet(DEBT_KEY, debtState);
+      amtEl.value = '';
+      noteEl.value = '';
+      dateEl.value = todayISO();
+      renderDebt();
+      updateOverview();
+    });
+
+    document.getElementById('debtPayList').addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action="delete"]');
+      if (!btn) return;
+      var id = btn.getAttribute('data-id');
+      debtState.payments = debtState.payments.filter(function (p) { return p.id !== id; });
+      lsSet(DEBT_KEY, debtState);
+      renderDebt();
+      updateOverview();
+    });
+
+    renderDebt();
+  }
+
+  function renderDebt() {
+    var progressBlock = document.getElementById('debtProgressBlock');
+    var emptyNote = document.getElementById('debtEmptyNote');
+    var paidSum = sumAmounts(debtState.payments);
+
+    if (debtState.balance === null) {
+      progressBlock.hidden = true;
+      emptyNote.hidden = false;
+    } else {
+      progressBlock.hidden = false;
+      emptyNote.hidden = true;
+      var remaining = debtState.balance - paidSum;
+      var pct = debtState.balance > 0 ? clamp((paidSum / debtState.balance) * 100, 0, 100) : (paidSum > 0 ? 100 : 0);
+      document.getElementById('debtBarFill').style.width = pct + '%';
+      document.getElementById('debtPaidTotal').textContent = fmtGBP(paidSum) + ' paid so far';
+      if (remaining < 0) {
+        document.getElementById('debtRemaining').textContent = fmtGBP(0);
+        document.getElementById('debtPercent').textContent = 'Paid off — ' + fmtGBP(Math.abs(remaining)) + ' ahead';
+      } else {
+        document.getElementById('debtRemaining').textContent = fmtGBP(remaining);
+        document.getElementById('debtPercent').textContent = fmtPct(pct) + ' paid off';
+      }
+    }
+    renderEntryList('debtPayList', debtState.payments, 'payments');
+  }
+
+  /* ---------------- emergency fund ---------------- */
+
+  var FUND_KEY = 'k2k_emergency_fund_v1';
+  var fundState = lsGet(FUND_KEY, { goal: null, deposits: [] });
+  if (!Array.isArray(fundState.deposits)) fundState.deposits = [];
+  if (fundState.goal === undefined) fundState.goal = null;
+
+  function setupFund() {
+    var goalInput = document.getElementById('fundGoalInput');
+    if (fundState.goal !== null) goalInput.value = fundState.goal;
+
+    goalInput.addEventListener('change', function () {
+      var v = goalInput.value;
+      if (v === '') {
+        fundState.goal = null;
+        lsSet(FUND_KEY, fundState);
+      } else {
+        var n = parseFloat(v);
+        if (isNaN(n) || n < 0) {
+          goalInput.value = fundState.goal !== null ? fundState.goal : '';
+          return;
+        }
+        fundState.goal = n;
+        lsSet(FUND_KEY, fundState);
+      }
+      flashSaved('fundSavedNote');
+      renderFund();
+      updateOverview();
+    });
+
+    document.getElementById('fundDepositDate').value = todayISO();
+
+    document.getElementById('fundDepositBtn').addEventListener('click', function () {
+      var dateEl = document.getElementById('fundDepositDate');
+      var amtEl = document.getElementById('fundDepositAmount');
+      var noteEl = document.getElementById('fundDepositNote');
+      var amt = parseFloat(amtEl.value);
+      if (!amtEl.value || isNaN(amt) || amt <= 0) { amtEl.focus(); return; }
+      fundState.deposits.push({ id: uid(), date: dateEl.value || todayISO(), amount: amt, note: (noteEl.value || '').trim() });
+      lsSet(FUND_KEY, fundState);
+      amtEl.value = '';
+      noteEl.value = '';
+      dateEl.value = todayISO();
+      renderFund();
+      updateOverview();
+    });
+
+    document.getElementById('fundDepositList').addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action="delete"]');
+      if (!btn) return;
+      var id = btn.getAttribute('data-id');
+      fundState.deposits = fundState.deposits.filter(function (p) { return p.id !== id; });
+      lsSet(FUND_KEY, fundState);
+      renderFund();
+      updateOverview();
+    });
+
+    renderFund();
+  }
+
+  function renderFund() {
+    var progressBlock = document.getElementById('fundProgressBlock');
+    var emptyNote = document.getElementById('fundEmptyNote');
+    var bal = sumAmounts(fundState.deposits);
+
+    if (fundState.goal === null) {
+      progressBlock.hidden = true;
+      emptyNote.hidden = false;
+    } else {
+      progressBlock.hidden = false;
+      emptyNote.hidden = true;
+      var pct = fundState.goal > 0 ? clamp((bal / fundState.goal) * 100, 0, 100) : (bal > 0 ? 100 : 0);
+      document.getElementById('fundBalance').textContent = fmtGBP(bal);
+      document.getElementById('fundBarFill').style.width = pct + '%';
+      if (bal >= fundState.goal && fundState.goal > 0) {
+        document.getElementById('fundPercent').textContent = 'Goal reached';
+        document.getElementById('fundGoalNote').textContent = fmtGBP(bal - fundState.goal) + ' beyond target';
+      } else {
+        document.getElementById('fundPercent').textContent = fmtPct(pct) + ' of goal';
+        document.getElementById('fundGoalNote').textContent = 'Goal: ' + fmtGBP(fundState.goal);
+      }
+    }
+    renderEntryList('fundDepositList', fundState.deposits, 'deposits');
+  }
+
+  /* ---------------- income & expense ---------------- */
+
+  var IE_KEY = 'k2k_income_expense_v1';
+  var ieState = lsGet(IE_KEY, { entries: [] });
+  if (!Array.isArray(ieState.entries)) ieState.entries = [];
+
+  function entriesForMonth(monthStr) {
+    return ieState.entries.filter(function (en) { return (en.date || '').slice(0, 7) === monthStr; });
+  }
+
+  function setupIE() {
+    var monthInput = document.getElementById('ieMonth');
+    monthInput.value = currentMonthStr();
+    monthInput.addEventListener('change', renderIE);
+
+    document.getElementById('ieDate').value = todayISO();
+
+    document.getElementById('ieAddBtn').addEventListener('click', function () {
+      var dateEl = document.getElementById('ieDate');
+      var typeEl = document.getElementById('ieType');
+      var catEl = document.getElementById('ieCategory');
+      var amtEl = document.getElementById('ieAmount');
+      var noteEl = document.getElementById('ieNote');
+      var amt = parseFloat(amtEl.value);
+      if (!amtEl.value || isNaN(amt) || amt <= 0) { amtEl.focus(); return; }
+      var date = dateEl.value || todayISO();
+      var category = (catEl.value || '').trim() || 'Other';
+      ieState.entries.push({ id: uid(), date: date, type: typeEl.value, category: category, amount: amt, note: (noteEl.value || '').trim() });
+      lsSet(IE_KEY, ieState);
+      amtEl.value = '';
+      noteEl.value = '';
+      catEl.value = '';
+      dateEl.value = todayISO();
+      monthInput.value = date.slice(0, 7);
+      renderIE();
+      updateOverview();
+    });
+
+    document.getElementById('ieEntryList').addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action="delete"]');
+      if (!btn) return;
+      var id = btn.getAttribute('data-id');
+      ieState.entries = ieState.entries.filter(function (en) { return en.id !== id; });
+      lsSet(IE_KEY, ieState);
+      renderIE();
+      updateOverview();
+    });
+
+    renderIE();
+  }
+
+  function renderBreakdown(containerId, items, fillClass) {
+    var el = document.getElementById(containerId);
+    if (!items || items.length === 0) {
+      el.innerHTML = '<p class="empty-note-sm">Nothing logged yet.</p>';
+      return;
+    }
+    var totals = {};
+    items.forEach(function (it) { totals[it.category] = (totals[it.category] || 0) + it.amount; });
+    var rows = Object.keys(totals).map(function (cat) { return { cat: cat, amount: totals[cat] }; });
+    rows.sort(function (a, b) { return b.amount - a.amount; });
+    var max = rows.length ? rows[0].amount : 1;
+    el.innerHTML = rows.map(function (r) {
+      var pct = max > 0 ? (r.amount / max) * 100 : 0;
+      return '<div class="bar-item">' +
+        '<div class="bar-label"><span>' + escapeHtml(r.cat) + '</span><span class="mono">' + escapeHtml(fmtGBP(r.amount)) + '</span></div>' +
+        '<div class="bar-track"><div class="bar-track-fill ' + fillClass + '" style="width:' + pct + '%"></div></div>' +
+        '</div>';
+    }).join('');
+  }
+
+  function renderIE() {
+    var monthStr = document.getElementById('ieMonth').value || currentMonthStr();
+    var entries = entriesForMonth(monthStr);
+    var income = entries.filter(function (e) { return e.type === 'income'; });
+    var expense = entries.filter(function (e) { return e.type === 'expense'; });
+    var incomeTotal = sumAmounts(income);
+    var expenseTotal = sumAmounts(expense);
+    var net = incomeTotal - expenseTotal;
+
+    document.getElementById('ieIncomeTotal').textContent = fmtGBP(incomeTotal);
+    document.getElementById('ieExpenseTotal').textContent = fmtGBP(expenseTotal);
+    var netEl = document.getElementById('ieNetTotal');
+    netEl.textContent = fmtGBPSigned(net);
+    netEl.className = 'mono ' + (net > 0 ? 'text-success' : (net < 0 ? 'text-error' : ''));
+
+    renderBreakdown('ieIncomeBreakdown', income, 'bar-fill-success');
+    renderBreakdown('ieExpenseBreakdown', expense, 'bar-fill-neutral');
+
+    var listEl = document.getElementById('ieEntryList');
+    if (entries.length === 0) {
+      listEl.innerHTML = '<li class="entry-empty">No entries for this month yet.</li>';
+    } else {
+      var sorted = entries.slice().sort(function (a, b) { return (b.date || '').localeCompare(a.date || ''); });
+      listEl.innerHTML = sorted.map(function (en) {
+        return '<li class="entry-item">' +
+          '<span class="entry-date mono">' + escapeHtml(fmtDateUK(en.date)) + '</span>' +
+          '<span class="entry-tag ' + (en.type === 'income' ? 'tag-success' : 'tag-neutral') + '">' + (en.type === 'income' ? 'Income' : 'Expense') + '</span>' +
+          '<span class="entry-cat">' + escapeHtml(en.category) + '</span>' +
+          '<span class="entry-amount mono">' + escapeHtml((en.type === 'expense' ? '−' : '') + fmtGBP(en.amount)) + '</span>' +
+          (en.note ? '<span class="entry-note">' + escapeHtml(en.note) + '</span>' : '') +
+          '<button class="icon-btn" data-action="delete" data-id="' + escapeHtml(en.id) + '" aria-label="Delete entry">✕</button>' +
+          '</li>';
+      }).join('');
+    }
+  }
+
+  /* ---------------- portfolio ---------------- */
+
+  var PF_KEY = 'k2k_portfolio_v1';
+  var pfState = lsGet(PF_KEY, { holdings: [] });
+  if (!Array.isArray(pfState.holdings)) pfState.holdings = [];
+
+  function glClass(h) {
+    var gl = (Number(h.shares) || 0) * (Number(h.currentPrice) || 0) - (Number(h.costBasis) || 0);
+    return gl > 0 ? 'text-success' : (gl < 0 ? 'text-error' : '');
+  }
+
+  function glText(h) {
+    var mv = (Number(h.shares) || 0) * (Number(h.currentPrice) || 0);
+    var gl = mv - (Number(h.costBasis) || 0);
+    if (!((Number(h.costBasis) || 0) > 0)) {
+      return fmtGBPSigned(gl) + ' (— set cost basis for %)';
+    }
+    var pct = (gl / h.costBasis) * 100;
+    return fmtGBPSigned(gl) + ' (' + (gl >= 0 ? '+' : '−') + Math.abs(Math.round(pct)) + '%)';
+  }
+
+  function setupPortfolio() {
+    document.getElementById('pfAddBtn').addEventListener('click', function () {
+      var nameEl = document.getElementById('pfName');
+      var name = (nameEl.value || '').trim();
+      if (!name) { nameEl.focus(); return; }
+      pfState.holdings.push({ id: uid(), name: name, shares: 0, costBasis: 0, currentPrice: 0 });
+      lsSet(PF_KEY, pfState);
+      nameEl.value = '';
+      renderPortfolio();
+    });
+
+    var body = document.getElementById('portfolioBody');
+
+    body.addEventListener('input', function (e) {
+      var input = e.target.closest('.cell-input');
+      if (!input) return;
+      var tr = input.closest('tr');
+      var id = tr.getAttribute('data-id');
+      var field = input.getAttribute('data-field');
+      var holding = pfState.holdings.find(function (h) { return h.id === id; });
+      if (!holding) return;
+      var v = parseFloat(input.value);
+      if (!isNaN(v) && v < 0) {
+        input.value = holding[field] || '';
+        return;
+      }
+      holding[field] = isNaN(v) ? 0 : v;
+      lsSet(PF_KEY, pfState);
+      var mvCell = tr.querySelector('[data-cell="mv"]');
+      var glCell = tr.querySelector('[data-cell="gl"]');
+      mvCell.textContent = fmtGBP((Number(holding.shares) || 0) * (Number(holding.currentPrice) || 0));
+      glCell.textContent = glText(holding);
+      glCell.className = 'mono ' + glClass(holding);
+      updatePortfolioTotal();
+    });
+
+    body.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action="delete"]');
+      if (!btn) return;
+      var tr = btn.closest('tr');
+      var id = tr.getAttribute('data-id');
+      pfState.holdings = pfState.holdings.filter(function (h) { return h.id !== id; });
+      lsSet(PF_KEY, pfState);
+      renderPortfolio();
+    });
+
+    renderPortfolio();
+  }
+
+  function renderPortfolio() {
+    var body = document.getElementById('portfolioBody');
+    if (!pfState.holdings.length) {
+      body.innerHTML = '<tr><td colspan="7" class="entry-empty">No holdings added yet.</td></tr>';
+    } else {
+      body.innerHTML = pfState.holdings.map(function (h) {
+        var mv = (Number(h.shares) || 0) * (Number(h.currentPrice) || 0);
+        return '<tr data-id="' + escapeHtml(h.id) + '">' +
+          '<td>' + escapeHtml(h.name) + '</td>' +
+          '<td><input class="cell-input" type="number" min="0" step="0.0001" data-field="shares" value="' + (h.shares || 0) + '"></td>' +
+          '<td><div class="prefix-wrap"><span class="symbol">£</span><input class="cell-input" type="number" min="0" step="0.01" data-field="costBasis" value="' + (h.costBasis || 0) + '"></div></td>' +
+          '<td><div class="prefix-wrap"><span class="symbol">£</span><input class="cell-input" type="number" min="0" step="0.01" data-field="currentPrice" value="' + (h.currentPrice || 0) + '"></div></td>' +
+          '<td class="mono" data-cell="mv">' + fmtGBP(mv) + '</td>' +
+          '<td class="mono ' + glClass(h) + '" data-cell="gl">' + glText(h) + '</td>' +
+          '<td><button class="icon-btn" data-action="delete" aria-label="Delete holding">✕</button></td>' +
+          '</tr>';
+      }).join('');
+    }
+    updatePortfolioTotal();
+  }
+
+  function updatePortfolioTotal() {
+    var total = pfState.holdings.reduce(function (sum, h) { return sum + (Number(h.shares) || 0) * (Number(h.currentPrice) || 0); }, 0);
+    document.getElementById('portfolioTotal').textContent = fmtGBP(total);
+  }
+
+  /* ---------------- bookings (live via mcp) ---------------- */
+
+  var bookingsAvailable = false;
+  var lastGoodEvents = null;
+  var lastUpdatedAt = null;
+
+  function eventTimeMs(start) {
+    if (!start) return null;
+    var iso = start.dateTime || (start.date ? start.date + 'T00:00:00' : null);
+    if (!iso) return null;
+    var t = new Date(iso).getTime();
+    return isNaN(t) ? null : t;
+  }
+
+  function fmtEventDateTime(start) {
+    if (!start) return '';
+    if (start.dateTime) {
+      var d = new Date(start.dateTime);
+      if (isNaN(d.getTime())) return '';
+      return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) +
+        ', ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    }
+    if (start.date) {
+      var d2 = new Date(start.date + 'T00:00:00');
+      if (isNaN(d2.getTime())) return start.date;
+      return d2.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) + ' (all day)';
+    }
+    return '';
+  }
+
+  function findNextBooking() {
+    if (!bookingsAvailable || !lastGoodEvents) return null;
+    var now = Date.now();
+    var upcoming = lastGoodEvents.filter(function (ev) {
+      var t = eventTimeMs(ev.start);
+      return t !== null && t >= now;
+    }).sort(function (a, b) { return eventTimeMs(a.start) - eventTimeMs(b.start); });
+    return upcoming.length ? upcoming[0] : null;
+  }
+
+  function setLivePill(state) {
+    var el = document.getElementById('bookingsLivePill');
+    el.className = 'live-pill';
+    if (state === 'live') { el.classList.add('is-live'); el.textContent = '● Live'; }
+    else if (state === 'stale') { el.classList.add('is-stale'); el.textContent = '● Refresh issue'; }
+    else { el.classList.add('is-offline'); el.textContent = '● Offline'; }
+  }
+
+  function setBookingsBanner(text, kind) {
+    var el = document.getElementById('bookingsBanner');
+    if (!text) { el.hidden = true; el.textContent = ''; return; }
+    el.hidden = false;
+    el.className = 'banner banner-' + kind;
+    el.textContent = text;
+  }
+
+  function renderBookings(events, updatedAt) {
+    var list = document.getElementById('bookingsList');
+    var updatedEl = document.getElementById('bookingsUpdated');
+    if (updatedAt) {
+      updatedEl.textContent = 'Updated ' + fmtTimeShort(new Date(updatedAt));
+      updatedEl.hidden = false;
+    } else {
+      updatedEl.hidden = true;
+    }
+    if (!events || events.length === 0) {
+      list.innerHTML = '<p class="empty-note">No bookings yet — jobs you add to your Google Calendar will show up here automatically.</p>';
+      return;
+    }
+    var now = Date.now();
+    list.innerHTML = events.map(function (ev) {
+      var dt = fmtEventDateTime(ev.start);
+      var isPast = eventTimeMs(ev.start) !== null && eventTimeMs(ev.start) < now;
+      var loc = ev.location ? '<div class="booking-loc">' + escapeHtml(ev.location) + '</div>' : '';
+      var desc = ev.description ? '<div class="booking-desc">' + escapeHtml(ev.description) + '</div>' : '';
+      var link = ev.htmlLink ? '<a class="booking-link" href="' + escapeHtml(ev.htmlLink) + '" target="_blank" rel="noopener">Open in Google Calendar →</a>' : '';
+      return '<div class="booking-item' + (isPast ? ' booking-past' : '') + '">' +
+        '<div class="booking-when mono">' + escapeHtml(dt) + '</div>' +
+        '<div class="booking-title">' + escapeHtml(ev.summary || '(untitled booking)') + '</div>' +
+        loc + desc + link +
+        '</div>';
+    }).join('');
+  }
+
+  function renderBookingsUnavailable(message) {
+    var list = document.getElementById('bookingsList');
+    list.innerHTML = '<p class="empty-note">' + escapeHtml(message || "Live bookings aren't available in this view.") + '</p>';
+    document.getElementById('bookingsUpdated').hidden = true;
+    setBookingsBanner(null);
+    setLivePill('offline');
+  }
+
+  function handleBookingsEvent(ev) {
+    if (ev.type === 'data') {
+      var payload = (ev.result && ev.result.payload) || {};
+      var events = payload.events || [];
+      lastGoodEvents = events;
+      lastUpdatedAt = (ev.result && ev.result.cache && ev.result.cache.storedAt) ? ev.result.cache.storedAt : Date.now();
+      bookingsAvailable = true;
+      setBookingsBanner(null);
+      setLivePill('live');
+      renderBookings(events, lastUpdatedAt);
+    } else if (ev.type === 'error') {
+      var code = ev.error && ev.error.code;
+      if (code === 'needs_reauth') {
+        bookingsAvailable = true;
+        lastGoodEvents = null;
+        setLivePill('offline');
+        setBookingsBanner('Reconnect Google Calendar in claude.ai Settings → Connectors.', 'error');
+        renderBookings([], null);
+      } else if (code === 'server_not_connected') {
+        bookingsAvailable = true;
+        lastGoodEvents = null;
+        setLivePill('offline');
+        setBookingsBanner('Add Google Calendar in claude.ai Settings → Connectors.', 'error');
+        renderBookings([], null);
+      } else if (code === 'blocked_by_policy') {
+        bookingsAvailable = true;
+        lastGoodEvents = null;
+        setLivePill('offline');
+        setBookingsBanner('Google Calendar access is blocked by an organisation policy on this account.', 'error');
+        renderBookings([], null);
+      } else if (code === 'approval_required') {
+        bookingsAvailable = true;
+        lastGoodEvents = null;
+        setLivePill('offline');
+        setBookingsBanner("This connector needs an approval step that isn't available here yet.", 'error');
+        renderBookings([], null);
+      } else if (code === 'not_granted' || code === 'capability_disabled' || code === 'capability_removed') {
+        bookingsAvailable = false;
+        lastGoodEvents = null;
+        renderBookingsUnavailable();
+      } else if (code === 'selection_required') {
+        bookingsAvailable = true;
+        lastGoodEvents = null;
+        setLivePill('offline');
+        setBookingsBanner('More than one Google Calendar is connected — choose one when prompted to see bookings here.', 'warning');
+        renderBookings([], null);
+      } else {
+        // transient (server_unavailable, upstream_error, rate_limited, cancelled, etc.) — keep last-good data
+        setLivePill('stale');
+        setBookingsBanner("Couldn't refresh bookings just now — showing the last update.", 'warning');
+        if (lastGoodEvents) {
+          renderBookings(lastGoodEvents, lastUpdatedAt);
+        } else {
+          renderBookings([], null);
+        }
+      }
+    }
+    updateOverview();
+  }
+
+  function initBookings() {
+    var proceed = function (mcp) {
+      if (!mcp) {
+        bookingsAvailable = false;
+        renderBookingsUnavailable();
+        updateOverview();
+        return;
+      }
+      bookingsAvailable = true;
+      try {
+        var start = new Date();
+        var end = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000);
+        mcp.watchTool('Google Calendar', 'list_events', {
+          pageSize: 20,
+          startTime: start.toISOString(),
+          endTime: end.toISOString(),
+          orderBy: 'startTime',
+          timeZone: 'Europe/London'
+        }, handleBookingsEvent, { refetchInterval: 300000 });
+      } catch (e) {
+        bookingsAvailable = false;
+        renderBookingsUnavailable();
+        updateOverview();
+      }
+    };
+
+    try {
+      if (window.claude && typeof window.claude.use === 'function') {
+        window.claude.use('mcp').then(proceed).catch(function () { proceed(null); });
+      } else {
+        proceed(null);
+      }
+    } catch (e) {
+      proceed(null);
+    }
+  }
+
+  /* ---------------- init ---------------- */
+
+  function init() {
+    setupIdeaGenerator();
+    setupDebt();
+    setupFund();
+    setupIE();
+    setupPortfolio();
+    updateOverview();
+    initBookings();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
