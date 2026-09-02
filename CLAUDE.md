@@ -71,8 +71,21 @@ the exact shape) and commits + pushes just that one file — this is the sole
 exception to "read-only," and it's what drives the dashboard's live "Ops
 Team" panel. Nothing else should ever be committed from that automated run.
 **Note:** pushing requires the routine's "allowed push branches" to include
-`main`, which isn't settable through the trigger API — it needs to be turned
-on for this routine in the claude.ai web UI directly.
+`main`. As of 2026-09-02 this isn't achievable through the RemoteTrigger API,
+the routine's own settings page, or the repo's GitHub App installation
+permissions — James checked all three. Until that changes, the panel shows
+whatever was last written by hand rather than auto-refreshing. Don't keep
+re-attempting the same fixes; ask whether anything's changed before trying
+again.
+
+## Working style
+
+**One session, one clean job.** Don't run research, drafting, and polishing
+in a single unbroken thread — context blurs together and quality drops
+("context rot"). Prefer the pattern already used by both pipelines above:
+each stage is a separate, focused unit of work that hands off a concrete
+result (a plan, a diff, a brief, a status file) to the next stage, rather
+than one long session trying to do everything at once.
 
 ## Conventions
 
