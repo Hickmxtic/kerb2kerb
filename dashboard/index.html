@@ -768,6 +768,52 @@
     text-anchor: middle;
     text-transform: uppercase;
   }
+  .orbital-hub-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    fill: var(--accent);
+    text-anchor: middle;
+    text-transform: uppercase;
+  }
+  .orbital-node.is-idle { opacity: 0.32; animation: none; }
+  .orbital-node.is-idle + .orbital-node-label { opacity: 0.5; }
+
+  /* ---- ops team status ---- */
+  .ops-run-meta {
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    margin: -6px 0 14px;
+  }
+  .ops-role-card { position: relative; }
+  .ops-role-status {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ink-faint);
+  }
+  .ops-role-status.ok { background: var(--success); box-shadow: 0 0 8px var(--success); }
+  .ops-role-status.idle { background: var(--ink-faint); }
+  .ops-role-card p.agent-role { min-height: 0; }
+  .ops-brief-toggle {
+    margin-top: 4px;
+  }
+  .ops-brief-full {
+    white-space: pre-wrap;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    max-height: 420px;
+    overflow-y: auto;
+  }
   @keyframes orbital-dash {
     to { stroke-dashoffset: -16; }
   }
@@ -836,6 +882,66 @@
     <div class="bookings-list" id="bookingsList">
       <p class="empty-note">Loading your calendar…</p>
     </div>
+  </section>
+
+  <!-- 2b. Ops Team (live, via scheduled cloud routine) -->
+  <section class="panel" id="opsTeamPanel">
+    <div class="panel-head">
+      <div>
+        <div class="eyebrow">Automated · runs daily ~7pm</div>
+        <h2>Ops Team</h2>
+      </div>
+      <span class="live-pill" id="opsTeamLivePill">● Checking…</span>
+    </div>
+    <p class="ops-run-meta" id="opsRunMeta">Loading last run…</p>
+
+    <div class="orbital-wrap">
+      <svg class="orbital-svg" viewBox="0 0 800 210" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Diagram: Ops Lead at the hub, connected to five roles - Dispatcher, Growth Lead, Content Strategist, Editor, Bookkeeper">
+        <g class="orbital-ring-group">
+          <ellipse class="orbital-ring" cx="400" cy="42" rx="380" ry="150"></ellipse>
+          <ellipse class="orbital-ring" cx="400" cy="42" rx="250" ry="100"></ellipse>
+        </g>
+        <line class="orbital-line" x1="400" y1="42" x2="90" y2="150"></line>
+        <line class="orbital-line" x1="400" y1="42" x2="245" y2="150"></line>
+        <line class="orbital-line" x1="400" y1="42" x2="400" y2="150"></line>
+        <line class="orbital-line" x1="400" y1="42" x2="555" y2="150"></line>
+        <line class="orbital-line" x1="400" y1="42" x2="710" y2="150"></line>
+        <circle class="orbital-pulse-dot" r="4"><animateMotion path="M400,42 L90,150" dur="2.4s" begin="0s" repeatCount="indefinite"></animateMotion></circle>
+        <circle class="orbital-pulse-dot" r="4"><animateMotion path="M400,42 L245,150" dur="2.4s" begin="0.5s" repeatCount="indefinite"></animateMotion></circle>
+        <circle class="orbital-pulse-dot" r="4"><animateMotion path="M400,42 L400,150" dur="2.4s" begin="1.0s" repeatCount="indefinite"></animateMotion></circle>
+        <circle class="orbital-pulse-dot" r="4"><animateMotion path="M400,42 L555,150" dur="2.4s" begin="1.5s" repeatCount="indefinite"></animateMotion></circle>
+        <circle class="orbital-pulse-dot" r="4"><animateMotion path="M400,42 L710,150" dur="2.4s" begin="2.0s" repeatCount="indefinite"></animateMotion></circle>
+        <circle class="orbital-hub-glow" cx="400" cy="42" r="26"></circle>
+        <circle class="orbital-hub" cx="400" cy="42" r="9"></circle>
+        <text class="orbital-hub-label" x="400" y="82">Ops Lead</text>
+        <polygon class="orbital-node" data-role="dispatcher" points="116,135 116,165 90,180 64,165 64,135 90,120" style="fill:var(--accent); animation-delay:0s"></polygon>
+        <text class="orbital-node-label" x="90" y="150">DI</text>
+        <text class="orbital-role-label" x="90" y="196">Dispatcher</text>
+        <polygon class="orbital-node" data-role="growth-lead" points="271,135 271,165 245,180 219,165 219,135 245,120" style="fill:var(--success); animation-delay:0.4s"></polygon>
+        <text class="orbital-node-label" x="245" y="150">GL</text>
+        <text class="orbital-role-label" x="245" y="196">Growth Lead</text>
+        <polygon class="orbital-node" data-role="content-strategist" points="426,135 426,165 400,180 374,165 374,135 400,120" style="fill:var(--c-ideas); animation-delay:0.8s"></polygon>
+        <text class="orbital-node-label" x="400" y="150">CS</text>
+        <text class="orbital-role-label" x="400" y="196">Content</text>
+        <polygon class="orbital-node" data-role="editor" points="581,135 581,165 555,180 529,165 529,135 555,120" style="fill:var(--c-content); animation-delay:1.2s"></polygon>
+        <text class="orbital-node-label" x="555" y="150">ED</text>
+        <text class="orbital-role-label" x="555" y="196">Editor</text>
+        <polygon class="orbital-node is-idle" data-role="bookkeeper" points="736,135 736,165 710,180 684,165 684,135 710,120" style="fill:var(--c-debt); animation-delay:1.6s"></polygon>
+        <text class="orbital-node-label" x="710" y="150">BK</text>
+        <text class="orbital-role-label" x="710" y="196">Bookkeeper</text>
+      </svg>
+    </div>
+
+    <div class="agent-grid" id="opsTeamGrid">
+      <div class="agent-card ops-role-card"><span class="ops-role-status idle"></span><span class="agent-step">DISPATCHER</span><p class="agent-role">Loading…</p></div>
+      <div class="agent-card ops-role-card"><span class="ops-role-status idle"></span><span class="agent-step">GROWTH LEAD</span><p class="agent-role">Loading…</p></div>
+      <div class="agent-card ops-role-card"><span class="ops-role-status idle"></span><span class="agent-step">CONTENT STRATEGIST</span><p class="agent-role">Loading…</p></div>
+      <div class="agent-card ops-role-card"><span class="ops-role-status idle"></span><span class="agent-step">EDITOR</span><p class="agent-role">Loading…</p></div>
+      <div class="agent-card ops-role-card"><span class="ops-role-status idle"></span><span class="agent-step">BOOKKEEPER</span><p class="agent-role">Needs real numbers pasted in — never runs on its own.</p></div>
+    </div>
+
+    <button class="btn btn-ghost btn-sm ops-brief-toggle" id="opsBriefToggle" hidden>Show full brief</button>
+    <div class="ops-brief-full" id="opsBriefFull" hidden></div>
   </section>
 
   <!-- 3. Content -->
@@ -2012,6 +2118,76 @@
     }
   }
 
+  /* ---------------- ops team (live status) ---------------- */
+
+  var OPS_ROLE_KEYS = ['dispatcher', 'growth-lead', 'content-strategist', 'editor'];
+
+  function fmtRunAgo(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    var mins = Math.round((Date.now() - d.getTime()) / 60000);
+    if (mins < 60) return mins + 'm ago';
+    var hrs = Math.round(mins / 60);
+    if (hrs < 48) return hrs + 'h ago';
+    return Math.round(hrs / 24) + 'd ago';
+  }
+
+  function renderOpsNodeStatus(role, ok) {
+    var node = document.querySelector('.orbital-node[data-role="' + role + '"]');
+    if (node) node.classList.toggle('is-idle', !ok);
+  }
+
+  function renderOpsTeam(data) {
+    var pill = document.getElementById('opsTeamLivePill');
+    var meta = document.getElementById('opsRunMeta');
+    var grid = document.getElementById('opsTeamGrid');
+
+    if (!data || !data.generated_at) {
+      pill.className = 'live-pill is-offline';
+      pill.textContent = '● No runs yet';
+      meta.textContent = "First automated brief hasn't landed yet — runs daily around 7pm.";
+      OPS_ROLE_KEYS.forEach(function (role) { renderOpsNodeStatus(role, false); });
+      return;
+    }
+
+    pill.className = 'live-pill is-live';
+    pill.textContent = '● Live';
+    var link = data.routine_url ? ' · <a href="' + escapeHtml(data.routine_url) + '" target="_blank" rel="noopener">view run →</a>' : '';
+    meta.innerHTML = 'Last run ' + fmtRunAgo(data.generated_at) + link;
+
+    var roles = data.roles || {};
+    var cards = grid.querySelectorAll('.ops-role-card');
+    OPS_ROLE_KEYS.forEach(function (role, i) {
+      var r = roles[role];
+      var ok = !!(r && r.status === 'ok');
+      renderOpsNodeStatus(role, ok);
+      var card = cards[i];
+      if (!card) return;
+      card.querySelector('.ops-role-status').className = 'ops-role-status ' + (ok ? 'ok' : 'idle');
+      card.querySelector('.agent-role').textContent = (r && r.summary) ? r.summary : 'Nothing from this run.';
+    });
+
+    if (data.brief) {
+      var toggle = document.getElementById('opsBriefToggle');
+      var full = document.getElementById('opsBriefFull');
+      toggle.hidden = false;
+      toggle.textContent = 'Show full brief';
+      toggle.onclick = function () {
+        var showing = !full.hidden;
+        full.hidden = showing;
+        toggle.textContent = showing ? 'Show full brief' : 'Hide full brief';
+      };
+      full.textContent = data.brief;
+    }
+  }
+
+  function initOpsTeam() {
+    fetch('ops-status.json', { cache: 'no-store' })
+      .then(function (res) { if (!res.ok) throw new Error('no status file'); return res.json(); })
+      .then(renderOpsTeam)
+      .catch(function () { renderOpsTeam(null); });
+  }
+
   /* ---------------- init ---------------- */
 
   function init() {
@@ -2022,6 +2198,7 @@
     setupPortfolio();
     updateOverview();
     initBookings();
+    initOpsTeam();
   }
 
   if (document.readyState === 'loading') {

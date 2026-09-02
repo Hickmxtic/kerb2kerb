@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-09-02T00:57:33Z",
+  "routine_url": "https://claude.ai/code/session_01UkCSccci8SdG2fruEEhuR5",
+  "roles": {
+    "dispatcher": {
+      "status": "ok",
+      "summary": "Google Calendar checked (jhickman077@outlook.com) — zero bookings this week, none next week either. Worth confirming jobs aren't tracked elsewhere."
+    },
+    "growth-lead": {
+      "status": "ok",
+      "summary": "Southampton student halls move-in (mid-Sept) is the top move — post today in 2–3 local Facebook groups, ready-to-use copy included below."
+    },
+    "content-strategist": {
+      "status": "ok",
+      "summary": "Next to film: \"Student move-in special\" Reel, timed to post before the move-in rush."
+    },
+    "editor": {
+      "status": "ok",
+      "summary": "Script/shot-list ready for the Student move-in special Reel (~24s, 7 shots) — see full brief."
+    }
+  },
+  "brief": "BOOKINGS\nCalendar (jhickman077@outlook.com) shows zero bookings — not just the next 48h, nothing scheduled the rest of this week either. Either work has genuinely dried up, or jobs are being tracked somewhere other than this calendar. Worth a quick check — if a booking exists but isn't landing here, dispatch can't warn you about clashes.\n\nGROWTH MOVE THIS WEEK\nSouthampton student halls move-in is landing over the next 2–3 weeks. Dates vary slightly by source (Solent Uni's main move-in weekend: 17–19 Sept; University of Southampton Welcome Week starts 14 Sept, Freshers runs 12–27 Sept; your own dashboard's idea bank notes 10–13 Sept) — treat it as \"students arriving through the first half of September\" and post now regardless of the exact day. This is the single biggest predictable demand spike of the year and it's free to chase organically.\n\nPost today in 2–3 local Southampton parent/student Facebook groups, from your own account (groups moderate against faceless business posts):\n\"Southampton halls move-in is coming up. If your car's too small for everything, I'll do the run for you — one van, door to door, no rented van, no stress. WhatsApp me for a price: 07926 438553.\"\n\nBackups if you have spare time: a short cold email/DM to local cruise travel agents (Southampton Cruise Centre, Ocean World Travel) and hotel concierge desks near the terminals (Novotel, ibis, Holiday Inn, Leonardo Royal) offering to be their go-to luggage-transfer recommendation.\n\nFILM NEXT: \"Student move-in special\"\nInstagram Reel, ~24 seconds, also postable natively into the Facebook groups.\n\n1. (0–2s) You mid-load, look at camera. Text: \"Moving into Southampton halls this month?\"\n2. (2–6s) Wide shot of a packed van/boot. Text: \"Parents' cars aren't built for a student's entire room.\"\n3. (6–10s) Close-up shutting van doors. Text: \"One van. One driver. Door to door.\"\n4. (10–14s) Driving shot. Text: \"Southampton to any halls, any postcode.\"\n5. (14–18s) — full shot list and closing CTA in the routine's session log (view run above) — this seed entry was trimmed short manually; tomorrow's automated run replaces it with the complete brief."
+}
