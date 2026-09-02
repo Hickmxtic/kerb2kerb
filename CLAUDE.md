@@ -53,6 +53,11 @@ this repo — it has no access to James's browser, so it can't read the
 dashboard's real financial data or send messages on his behalf. Its brief is
 research/planning/content output only. Treat that as a hard limit, not a bug.
 
+The routine also writes `dashboard/ops-status.json` (see `ops-lead.md` for
+the exact shape) and commits + pushes just that one file — this is the sole
+exception to "read-only," and it's what drives the dashboard's live "Ops
+Team" panel. Nothing else should ever be committed from that automated run.
+
 ## Conventions
 
 - No new dependencies, no bundler, no framework migration without asking first.
