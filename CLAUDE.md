@@ -45,8 +45,21 @@ to produce concrete, ready-to-act-on output with minimal supervision:
 - **editor** — writes scripts/hooks/shot-lists/captions and short-form ad copy.
   Cannot cut or export actual video — no video-editing tool is connected;
   the physical edit stays a manual step this makes fast, not automatic.
-- **ops-lead** — rolls the above into one short brief. This is the one the
-  scheduled daily/weekly routine runs.
+- **ops-lead** — rolls the above into one short brief. Its instructions live
+  in `.claude/agents/ops-lead.md`, but it's meant to be **read and followed
+  directly by the top-level session** (the scheduled routine's own prompt
+  points at it) — never invoked via `subagent_type: "ops-lead"`. See the
+  platform limit below for why.
+
+**Platform limit — no nested subagents.** A session invoked through the
+Agent tool cannot itself call the Agent tool — it errors outright. So the
+only safe shape is: top-level session delegates to specialist subagents
+(one level deep), then the *top-level session itself* compiles the result
+and writes any files. Never design a subagent whose job is to spawn further
+subagents — that's what `ops-lead` originally was, and it silently failed
+until the top-level session improvised a workaround. The dev pipeline above
+doesn't have this problem since architect/coder/tester/manager are always
+called directly from the top level, never from within each other.
 
 The scheduled routine runs in an isolated cloud sandbox with a fresh clone of
 this repo — it has no access to James's browser, so it can't read the
@@ -57,6 +70,9 @@ The routine also writes `dashboard/ops-status.json` (see `ops-lead.md` for
 the exact shape) and commits + pushes just that one file — this is the sole
 exception to "read-only," and it's what drives the dashboard's live "Ops
 Team" panel. Nothing else should ever be committed from that automated run.
+**Note:** pushing requires the routine's "allowed push branches" to include
+`main`, which isn't settable through the trigger API — it needs to be turned
+on for this routine in the claude.ai web UI directly.
 
 ## Conventions
 
