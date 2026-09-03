@@ -35,7 +35,7 @@ Every job is a **round trip** for you, so cost = (one-way miles × 2 × £0.58) 
 | Job type | Callout | Per mile | Minimum | Examples |
 |---|---|---|---|---|
 | **Cruise port transfer** | **£20** | **£1.20** | £25 | SO14–SO19 → terminal ≈ £25–30 · Eastleigh/Totton ≈ £32 · Fareham ≈ £35 · Portsmouth/Winchester ≈ £42–45 |
-| **Airport run** | **£25** | **£1.90** | £35 | Southampton Airport ≈ £35 · **Heathrow ≈ £165** · **Gatwick ≈ £185** · Bournemouth ≈ £80 |
+| **Airport run** | **£25** | **£1.90** | £35 | Southampton Airport ≈ £35 · Bournemouth ≈ £80 · **London airports are fixed-price, not per-mile: Heathrow £245 / Gatwick £265** (see long-distance rule below) |
 | **Luggage / parcel** | **£20** | **£1.20** | £25 | across the city ≈ £25–30 · Portsmouth ≈ £45 |
 
 Why airport per-mile is higher: a Heathrow run is 150 miles and ~3.5 hours of your day *round trip* — the floor alone is ~£157. Passenger transfers charge £150–200 for a car; you're carrying bags only, so £165 for up to 6 cases is fair and easy to say. (For local airport/cruise bag runs, the per-bag rule below applies instead.)
@@ -52,7 +52,7 @@ cover is the right insurance, and the site already says so.
 | Job | How to price | Numbers |
 |---|---|---|
 | **Local luggage run** (≤ 15 miles: home/hotel → cruise terminal or Southampton Airport, halls → home, anywhere in the city) | **Per bag.** Prices *higher* than a mileage rate on small runs, and it's how customers think about bags. **£12 per bag, £30 minimum.** A large box or awkward item counts as a bag. | 2 bags £30 · 4 bags £48 · 6 bags £72. Floor for a 5-mile run is ~£21. |
-| **Long-distance luggage run** (Heathrow / Gatwick / London ↔ Southampton) | **Per journey, not per bag** — the cost is the 150-mile round trip, not the bags. **£165 Heathrow / £185 Gatwick, up to 6 bags, +£5 each after.** | Per-bag falls apart here: 2 bags at any sane per-bag rate can't cover a ~£157 floor. |
+| **Long-distance luggage run** (Heathrow / Gatwick / London ↔ Southampton) | **Per journey, not per bag** — the cost is the 150-mile round trip, not the bags. **£245 Heathrow / £265 Gatwick, up to 6 bags, +£5 each after.** | A London run is ~4 hours; if it displaces an Amazon Flex day (£172) the price must clear £172 + ~£87 running cost ≈ £260. £245/£265 always beats the alternative, and London→cruise passengers already pay £150–200 for a car *without* luggage. |
 
 Rule of thumb: **under 15 miles, count the bags; over 15 miles, price the
 journey.** The calculator's callout + per-mile is the *journey* price — use
@@ -82,7 +82,11 @@ dev pipeline later — not this month.
 
 - Student: *"£35 door to door anywhere in Southampton, I'll help carry, one van-load. Just text me the day and time."*
 - Cruise (city, luggage only): *"£12 a case, £30 minimum. I collect from your door and your bags are at the terminal before you are — you travel light. I'll message when they're dropped."*
-- Heathrow (luggage only): *"£165 fixed for up to 6 bags, door to terminal. You travel however you like; your luggage is waiting for you. No meters, no surprises."*
+- Heathrow (luggage only): *"£245 fixed for up to 6 bags, door to terminal. You travel however you like; your luggage is waiting for you. No meters, no surprises."*
+
+**The opportunity-cost rule (James, 2026-09-03):** any job that takes most of a day has to beat a Flex day — **£172 + running costs** — or it's not worth doing. Local jobs fit around shifts so this doesn't apply to them; London runs do.
+
+**Payment**: bank transfer or cash on completion. Add a SumUp/Stripe card link after ~10 jobs; no deposits until no-shows are a real problem.
 - Courier: *"£35 minimum then £1.50 a mile, same day, one driver the whole way. Send me the postcodes and I'll give you the exact number."*
 
 ## 5. When to raise
