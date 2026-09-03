@@ -96,9 +96,11 @@ system looks.
 
 ## The first-customer sequence (so nothing is improvised on the day)
 
-1. Enquiry lands on WhatsApp → reply within the hour with a price. Keep it
-   simple: a flat "Southampton to halls" price, and "+£X" for out-of-town
-   pickups. Decide the numbers *before* the first message comes in.
+1. Enquiry lands on WhatsApp → reply within the hour with a price. The
+   numbers are decided — see [pricing.md](pricing.md). For move-in week:
+   **£35 flat anywhere in Southampton, +£1.20/mile from outside the city.**
+   Copy-paste: *"£35 door to door anywhere in Southampton, I'll help carry,
+   one van-load. Just text me the day and time."*
 2. Confirm → put it in the calendar → send a one-line confirmation ("Booked:
    [day] [time], I'll message when I'm 10 min away").
 3. Do the job → ask for a Google/Facebook review while you're still there
