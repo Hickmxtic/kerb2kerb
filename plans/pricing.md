@@ -38,21 +38,29 @@ Every job is a **round trip** for you, so cost = (one-way miles × 2 × £0.58) 
 | **Airport run** | **£25** | **£1.90** | £35 | Southampton Airport ≈ £35 · **Heathrow ≈ £165** · **Gatwick ≈ £185** · Bournemouth ≈ £80 |
 | **Luggage / parcel** | **£20** | **£1.20** | £25 | across the city ≈ £25–30 · Portsmouth ≈ £45 |
 
-Why airport per-mile is higher: a Heathrow run is 150 miles and ~3.5 hours of your day *round trip* — the floor alone is ~£157, and the market charges £150–200 for a car. £165 in a van with proper luggage space is a fair, easy-to-say price.
+Why airport per-mile is higher: a Heathrow run is 150 miles and ~3.5 hours of your day *round trip* — the floor alone is ~£157. Passenger transfers charge £150–200 for a car; you're carrying bags only, so £165 for up to 6 cases is fair and easy to say. (For local airport/cruise bag runs, the per-bag rule below applies instead.)
 
-### Per bag or per journey? (cruise & airport)
+### Per bag or per journey? (cruise & airport — luggage only, never passengers)
 
-Two different jobs hide under "cruise transfer" — price them differently:
+**Kerb2Kerb carries luggage and goods only. No passenger ever rides in the
+van.** The customer travels separately; their bags meet them at the terminal
+(or come home from it). That's the same model as [AirPortr](https://airportr.com/en/see-prices/)
+(£35+/bag) — you're the local, cheaper, same-person version of it. It also
+means no private-hire licence question: hire & reward + goods-in-transit
+cover is the right insurance, and the site already says so.
 
-| Situation | How to price | Numbers |
+| Job | How to price | Numbers |
 |---|---|---|
-| **Customer rides with their bags** (a transfer) | **Per journey** — the callout + per-mile above. Includes **up to 4 bags**; **+£5 per extra bag**. | City → terminal £25–30 for a couple with 4 cases. Heathrow £165 for a family and 6 bags = £175. |
-| **Luggage only, local** (you take the bags, they make their own way — ≤ 15 miles, e.g. hotel or home → cruise terminal, halls → home) | **Per bag** — this is what the luggage-only market charges and it prices *higher* than a journey rate for small runs. **£12 per bag, £30 minimum.** | 2 bags £30 · 4 bags £48 · 6 bags £72. [AirPortr](https://airportr.com/en/see-prices/) is £35+/bag, so you're the cheap, local, same-person option. Floor for a 5-mile run is ~£21. |
-| **Luggage only, long distance** (Heathrow/Gatwick/London → Southampton terminal) | **Per journey, not per bag** — the cost is the 150-mile round trip, not the bags. Same £165 / £185, **up to 6 bags**, +£5 each after. | Per-bag falls apart here: 2 bags at any sane per-bag rate can't cover a £157 floor. |
+| **Local luggage run** (≤ 15 miles: home/hotel → cruise terminal or Southampton Airport, halls → home, anywhere in the city) | **Per bag.** Prices *higher* than a mileage rate on small runs, and it's how customers think about bags. **£12 per bag, £30 minimum.** A large box or awkward item counts as a bag. | 2 bags £30 · 4 bags £48 · 6 bags £72. Floor for a 5-mile run is ~£21. |
+| **Long-distance luggage run** (Heathrow / Gatwick / London ↔ Southampton) | **Per journey, not per bag** — the cost is the 150-mile round trip, not the bags. **£165 Heathrow / £185 Gatwick, up to 6 bags, +£5 each after.** | Per-bag falls apart here: 2 bags at any sane per-bag rate can't cover a ~£157 floor. |
 
-Why the split works on the phone: ask one question — *"Are you travelling in the van with the bags, or do you just need the bags moved?"* — and you know which line to quote from.
+Rule of thumb: **under 15 miles, count the bags; over 15 miles, price the
+journey.** The calculator's callout + per-mile is the *journey* price — use
+it for distance runs and full van-loads; for local bag runs, quote per bag.
 
-The calculator has no bag-count field, so per-bag and extra-bag quotes are done by hand for now. If it comes up often, a "number of bags" input is a small job for the dev pipeline later — not this month.
+The calculator has no bag-count field, so per-bag quotes are done by hand for
+now. If it comes up often, a "number of bags" input is a small job for the
+dev pipeline later — not this month.
 
 ### Quoted by hand (not in the calculator)
 
@@ -73,8 +81,8 @@ The calculator has no bag-count field, so per-bag and extra-bag quotes are done 
 ## 4. Copy-paste quote lines
 
 - Student: *"£35 door to door anywhere in Southampton, I'll help carry, one van-load. Just text me the day and time."*
-- Cruise (city): *"£25 from your door straight to the terminal, timed to your sailing. I'll message when I'm 10 minutes out."*
-- Heathrow: *"£165 fixed, door to terminal, all luggage in the van with you — no meters, no surprises."*
+- Cruise (city, luggage only): *"£12 a case, £30 minimum. I collect from your door and your bags are at the terminal before you are — you travel light. I'll message when they're dropped."*
+- Heathrow (luggage only): *"£165 fixed for up to 6 bags, door to terminal. You travel however you like; your luggage is waiting for you. No meters, no surprises."*
 - Courier: *"£35 minimum then £1.50 a mile, same day, one driver the whole way. Send me the postcodes and I'll give you the exact number."*
 
 ## 5. When to raise
