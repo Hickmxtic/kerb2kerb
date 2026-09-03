@@ -25,6 +25,20 @@ python3 -m http.server 8000 --directory dist
 
 Then visit `http://localhost:8000/` for the site and `http://localhost:8000/dashboard/` for the dashboard.
 
-## Deploying
+## Deploying — GitHub Pages
 
-No host is connected at the moment. `bash build.sh` produces `dist/` (site at `/`, dashboard at `/dashboard/`); point whichever host is chosen next at that folder.
+`.github/workflows/pages.yml` runs `build.sh` on every push to `main` and publishes `dist/` to GitHub Pages. Free, no credits, no build limits.
+
+**One-time setup (James):**
+
+1. Repo → **Settings → Pages** → *Build and deployment* → Source: **GitHub Actions**. (The first push after this triggers the deploy; check the *Actions* tab.)
+2. Same page → *Custom domain*: `kerb2kerb.co.uk` → Save. Tick **Enforce HTTPS** once the DNS check passes (can take up to an hour).
+3. Namecheap → Domain List → kerb2kerb.co.uk → **Advanced DNS**. Delete the old Netlify records, add:
+   - `A` record, host `@`, value `185.199.108.153`
+   - `A` record, host `@`, value `185.199.109.153`
+   - `A` record, host `@`, value `185.199.110.153`
+   - `A` record, host `@`, value `185.199.111.153`
+   - `CNAME` record, host `www`, value `hickmxtic.github.io`
+4. Wait 10–60 minutes, then `https://kerb2kerb.co.uk` serves the site.
+
+After that, deploying = push to `main`.
