@@ -41,6 +41,6 @@ Then visit `http://localhost:8000/` for the site and `http://localhost:8000/dash
    - `CNAME` record, host `www`, value `hickmxtic.github.io`
 4. Wait 10–60 minutes, then `https://kerb2kerb.co.uk` serves the site.
 
-**Email on the domain** (separate from the records above — don't delete any `MX`/`TXT` records while editing DNS): Namecheap → Domain List → *Manage* → **Domain** tab → *Redirect Email* → add a forwarder `hello@kerb2kerb.co.uk` → `jhickman077@outlook.com`. Free, receive-only, two minutes. If sending *from* the address is ever needed (outreach, ad accounts), add a paid mailbox (Namecheap Private Email or Google Workspace) later.
+**Email on the domain**: `james@kerb2kerb.co.uk` — a Namecheap Private Email mailbox (valid to Sep 2027), webmail at [privateemail.com](https://privateemail.com). Its `MX` records (`mx1`/`mx2.privateemail.com`) and SPF `TXT` record live in Advanced DNS alongside the GitHub Pages records above — **never delete them** when editing DNS. This is the address for the enquiry form, the Meta business account, and anything customer-facing.
 
 After that, deploying = push to `main`.

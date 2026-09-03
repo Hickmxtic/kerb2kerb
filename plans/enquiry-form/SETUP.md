@@ -7,8 +7,10 @@ blind to what comes in. Free, nothing to host, no third party.
 1. Go to [sheets.google.com](https://sheets.google.com) → new blank sheet →
    name it **Kerb2Kerb enquiries**.
 2. In the sheet: **Extensions → Apps Script**. Delete the sample code, paste
-   the whole of `Code.gs` (next to this file). If your notify email isn't
-   `jhickman077@outlook.com`, change `NOTIFY_EMAIL` at the top. **Save** (disk icon).
+   the whole of `Code.gs` (next to this file). Enquiries are emailed to
+   `james@kerb2kerb.co.uk` (your Namecheap Private Email mailbox — log in at
+   privateemail.com); change `NOTIFY_EMAIL` at the top if you'd rather they
+   went elsewhere. **Save** (disk icon).
 3. **Deploy → New deployment** → gear icon → *Web app*.
    - Description: `enquiries`
    - Execute as: **Me**

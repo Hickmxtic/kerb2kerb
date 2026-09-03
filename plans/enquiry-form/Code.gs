@@ -3,7 +3,7 @@
 // "Enquiries" sheet, and emails James. Deployed by James in his own Google
 // account (steps in SETUP.md next to this file).
 
-var NOTIFY_EMAIL = 'jhickman077@outlook.com';
+var NOTIFY_EMAIL = 'james@kerb2kerb.co.uk';
 var SHEET_NAME = 'Enquiries';
 
 var COLUMNS = [
