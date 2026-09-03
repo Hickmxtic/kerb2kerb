@@ -24,6 +24,14 @@ function doPost(e) {
     return respond({ ok: false, error: 'bad json' });
   }
 
+  // Accept the site's older field names too, so a visitor with a cached copy
+  // of quote.js still produces a complete row.
+  var ALIASES = { phone: 'whatsapp', job: 'job_type', bags: 'bags_or_load',
+    date: 'preferred_date', window: 'preferred_time', price: 'quoted_price', src: 'source' };
+  Object.keys(ALIASES).forEach(function (k) {
+    if (data[k] != null && data[ALIASES[k]] == null) data[ALIASES[k]] = data[k];
+  });
+
   var sheet = getSheet();
   var row = COLUMNS.map(function (col) {
     if (col === 'received') return new Date();

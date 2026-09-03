@@ -363,9 +363,22 @@
       var text = enquiryMessage(form);
       window.K2K.lead({ content_name: 'enquiry_form', job: form.job.value, src: form.src.value });
       if (!APPS_SCRIPT_URL) { openWhatsApp(text); return; }
-      var payload = {};
-      Array.prototype.forEach.call(form.elements, function (i) { if (i.name) payload[i.name] = i.value; });
-      payload.page = window.location.pathname;
+      var jobDef = JOBS[form.job.value];
+      // Keys must match the Apps Script's COLUMNS exactly - anything else lands as a blank cell.
+      var payload = {
+        name: form.name.value.trim(),
+        whatsapp: form.phone.value.trim(),
+        job_type: jobDef ? jobDef.label : form.job.value,
+        pickup: form.pickup.value.trim(),
+        dropoff: form.dropoff.value.trim(),
+        bags_or_load: form.bags.value.trim(),
+        preferred_date: form.date.value,
+        preferred_time: form.window.value,
+        quoted_price: form.price.value,
+        notes: form.notes.value.trim(),
+        source: form.src.value,
+        page: window.location.pathname
+      };
       // text/plain keeps the request "simple" so Apps Script gets it without a CORS preflight it can't answer.
       fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) })
         .then(function () {
