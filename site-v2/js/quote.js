@@ -12,7 +12,7 @@
 
   // Apps Script hook: paste the deployed "Kerb2Kerb enquiries" web-app URL here. While it is empty the
   // form opens WhatsApp with everything pre-typed instead, so no enquiry is lost before the Sheet exists.
-  var APPS_SCRIPT_URL = '';
+  var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxYSRPLPkIR5eIDx7Xq-L1MHai-6mp4XqhpwvGmDRzhrzeVCBzGfCRssCNB2zaO1CSH/exec';
 
   var DESTS = {
     cruise: [
