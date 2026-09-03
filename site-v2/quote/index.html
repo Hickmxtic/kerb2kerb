@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prices and instant quote | Kerb2Kerb Southampton</title>
+<meta name="description" content="Instant price for cruise luggage, airport luggage, student move-in, parcels, removals and courier runs around Southampton. One number, no VAT. Request it or send it straight to WhatsApp.">
+<link rel="canonical" href="https://kerb2kerb.co.uk/quote/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="/">KERB<span>2</span>KERB</a>
+    <nav class="nav-links" id="nav">
+      <a href="/cruise-luggage/">Cruise</a>
+      <a href="/student-move-in/">Student</a>
+      <a href="/airport-luggage/">Airport</a>
+      <a href="/removals/">Removals</a>
+      <a href="/courier/">Courier</a>
+      <a href="/quote/">Prices</a>
+    </nav>
+    <a class="btn btn-whatsapp btn-sm header-cta" href="https://wa.me/447926438553" target="_blank" rel="noopener">WhatsApp James</a>
+    <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav">☰</button>
+  </div>
+</header>
+
+<div class="notice"><strong>Luggage and goods only</strong> — nobody travels in the van. You make your own way; your things are there when you arrive.</div>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Prices</span>
+      <h1>One number. No VAT. No surprises.</h1>
+      <p class="lede">Every price below is the price you pay. Put the details in, then request it or send it straight to my WhatsApp. I confirm every request before anything is booked.</p>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="quote">
+    <div class="wrap">
+      <div id="quote-tool" data-quote-tool data-job="cruise"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The rates</span>
+        <h2>How every price is worked out.</h2>
+        <p>Miles are one-way from your postcode. A large box or awkward item counts as a bag.</p>
+      </div>
+      <div class="table-scroll">
+        <table class="price-table">
+          <thead><tr><th>Job</th><th>Price</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Cruise luggage</strong></td><td>£12 a case, £30 minimum, within 15 miles of the terminal. Further out: £20 callout + £1.20 a mile.</td></tr>
+            <tr><td><strong>Airport luggage</strong></td><td>Southampton Airport £12 a bag, £30 minimum. Bournemouth £25 callout + £1.90 a mile. Heathrow £245 / Gatwick £265 fixed, up to 6 bags, +£5 a bag after.</td></tr>
+            <tr><td><strong>Student move-in</strong></td><td>£35 flat anywhere in Southampton (SO14–SO19), one van-load, I help carry. From outside the city: +£1.20 a mile.</td></tr>
+            <tr><td><strong>Luggage / parcel</strong></td><td>£12 a bag, £30 minimum, within 15 miles. Further out: £20 callout + £1.20 a mile.</td></tr>
+            <tr><td><strong>Removals</strong></td><td>£35 an hour, 2-hour minimum, +£1.20 a mile beyond 10 miles. Send a photo of the load for a fixed price.</td></tr>
+            <tr><td><strong>Business courier</strong></td><td>£35 minimum + £1.50 a mile, same day, one driver the whole way.</td></tr>
+            <tr><td><strong>Waiting time</strong></td><td>First 15 minutes free, then £10 per 15 minutes. Only really matters at terminals and airports.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="request">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Request it</span>
+        <h2>Send me the details.</h2>
+        <p>This goes straight to my phone. I'll confirm by WhatsApp — nothing is booked until I do.</p>
+      </div>
+      <form class="enquiry" id="enquiry-form" novalidate>
+        <input type="hidden" name="price">
+        <input type="hidden" name="src">
+        <div class="quote-grid">
+          <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="f-phone">WhatsApp number</label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="07…" required></div>
+          <div class="field"><label for="f-job">Job type</label>
+            <select id="f-job" name="job">
+              <option value="cruise">Cruise luggage</option>
+              <option value="airport">Airport luggage</option>
+              <option value="student">Student move-in</option>
+              <option value="luggage">Luggage / parcel</option>
+              <option value="removals">Removals</option>
+              <option value="courier">Business courier</option>
+            </select>
+          </div>
+          <div class="field"><label for="f-bags">Bags / load</label><input id="f-bags" name="bags" type="text" placeholder="e.g. 3 cases, or one van-load"></div>
+          <div class="field"><label for="f-pickup">Pickup postcode</label><input id="f-pickup" name="pickup" type="text" autocapitalize="characters" autocomplete="postal-code" spellcheck="false" required></div>
+          <div class="field"><label for="f-dropoff">Drop-off</label><input id="f-dropoff" name="dropoff" type="text" placeholder="Terminal, airport or postcode"></div>
+          <div class="field"><label for="f-date">Preferred date</label><input id="f-date" name="date" type="date"></div>
+          <div class="field"><label for="f-window">Time window</label>
+            <select id="f-window" name="window">
+              <option>Morning (7–11am)</option>
+              <option>Midday (11am–2pm)</option>
+              <option>Afternoon (2–6pm)</option>
+              <option>Evening (6–9pm)</option>
+              <option selected>Flexible</option>
+            </select>
+          </div>
+          <div class="field span-2"><label for="f-notes">Anything else</label><textarea id="f-notes" name="notes" placeholder="Ship name, flight time, halls name, awkward items, parking notes…"></textarea></div>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Send request</button>
+        <div class="form-status" aria-live="polite"></div>
+        <p class="form-note">Sending opens WhatsApp with everything typed out for you — just press send. Prefer to talk? <a href="https://wa.me/447926438553" target="_blank" rel="noopener"><strong>Message me directly.</strong></a></p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">The fine print</span>
+        <h2>Short, because it should be.</h2>
+      </div>
+      <ul class="list">
+        <li>Free cancellation up to 24 hours before. Inside 24 hours, a £15 callout.</li>
+        <li>Bags are photographed at collection and at delivery. Any damage claim goes through the goods-in-transit insurance.</li>
+        <li>Waiting time: first 15 minutes free, then £10 per 15 minutes.</li>
+        <li>No VAT — sole trader under the threshold. What you're quoted is what you pay.</li>
+        <li>Bank payment or cash on completion. No deposits.</li>
+        <li>Luggage and goods only. Nobody travels in the van.</li>
+      </ul>
+      <a class="more" href="/terms/" style="display:inline-block;margin-top:18px;font-weight:600;color:var(--accent);">Full terms →</a>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="grid grid-4">
+        <div class="trust-item"><h3>The van</h3><p>2019 Citroën Dispatch — fits 15+ large suitcases, or a studio/one-bed's boxes in one load.</p></div>
+        <div class="trust-item"><h3>Insured</h3><p>Goods in transit insured up to £25,000 · Public liability £5,000,000 · Hire &amp; reward courier cover · Fully comprehensive vehicle insurance.</p></div>
+        <div class="trust-item"><h3>The driver</h3><p>One van, one driver — that's me, James. No subcontractors.</p></div>
+        <div class="trust-item"><h3>No VAT</h3><p>No VAT — the price you see is the price you pay.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-brand">KERB<span>2</span>KERB</div>
+    <p class="footer-line">Kerb2Kerb — luggage and goods, kerb to kerb. Southampton and 20 miles. Sole trader, insured for goods in transit.</p>
+    <div class="footer-links">
+      <a href="https://wa.me/447926438553" target="_blank" rel="noopener">WhatsApp 07926 438553</a> · <a href="mailto:james@kerb2kerb.co.uk">james@kerb2kerb.co.uk</a>
+      <a href="/quote/#request">Request form</a>
+      <a href="/faq/">FAQ</a>
+      <a href="/terms/">Terms</a>
+    </div>
+    <p class="footer-meta">Luggage and goods only — nobody travels in the van. © 2026 Kerb2Kerb, Southampton.</p>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <a class="btn btn-ghost" href="#quote">Instant price</a>
+  <a class="btn btn-whatsapp" href="https://wa.me/447926438553" target="_blank" rel="noopener">WhatsApp James</a>
+</div>
+
+<script src="/js/site.js"></script>
+<script src="/js/postcodes.js"></script>
+<script src="/js/quote.js"></script>
+</body>
+</html>
