@@ -40,6 +40,20 @@ Every job is a **round trip** for you, so cost = (one-way miles × 2 × £0.58) 
 
 Why airport per-mile is higher: a Heathrow run is 150 miles and ~3.5 hours of your day *round trip* — the floor alone is ~£157, and the market charges £150–200 for a car. £165 in a van with proper luggage space is a fair, easy-to-say price.
 
+### Per bag or per journey? (cruise & airport)
+
+Two different jobs hide under "cruise transfer" — price them differently:
+
+| Situation | How to price | Numbers |
+|---|---|---|
+| **Customer rides with their bags** (a transfer) | **Per journey** — the callout + per-mile above. Includes **up to 4 bags**; **+£5 per extra bag**. | City → terminal £25–30 for a couple with 4 cases. Heathrow £165 for a family and 6 bags = £175. |
+| **Luggage only, local** (you take the bags, they make their own way — ≤ 15 miles, e.g. hotel or home → cruise terminal, halls → home) | **Per bag** — this is what the luggage-only market charges and it prices *higher* than a journey rate for small runs. **£12 per bag, £30 minimum.** | 2 bags £30 · 4 bags £48 · 6 bags £72. [AirPortr](https://airportr.com/en/see-prices/) is £35+/bag, so you're the cheap, local, same-person option. Floor for a 5-mile run is ~£21. |
+| **Luggage only, long distance** (Heathrow/Gatwick/London → Southampton terminal) | **Per journey, not per bag** — the cost is the 150-mile round trip, not the bags. Same £165 / £185, **up to 6 bags**, +£5 each after. | Per-bag falls apart here: 2 bags at any sane per-bag rate can't cover a £157 floor. |
+
+Why the split works on the phone: ask one question — *"Are you travelling in the van with the bags, or do you just need the bags moved?"* — and you know which line to quote from.
+
+The calculator has no bag-count field, so per-bag and extra-bag quotes are done by hand for now. If it comes up often, a "number of bags" input is a small job for the dev pipeline later — not this month.
+
 ### Quoted by hand (not in the calculator)
 
 | Job type | Price | Floor check |
