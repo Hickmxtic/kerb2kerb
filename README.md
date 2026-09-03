@@ -3,13 +3,17 @@
 Source repo for [kerb2kerb.co.uk](https://kerb2kerb.co.uk).
 
 - GitHub: [Hickmxtic/kerb2kerb](https://github.com/Hickmxtic/kerb2kerb)
-- Hosting: **none right now** — the Netlify site was scrapped on 3 Sept 2026 (credit-based free plan pauses sites at zero credits). New host TBD; `build.sh` produces a plain static `dist/` that any host can serve.
-- DNS: managed at Namecheap (out of scope for this repo). Until a new host is live and DNS is repointed, the domain resolves to nothing.
+- Hosting: **GitHub Pages** (free, no credits) — see *Deploying* below. Netlify was scrapped on 3 Sept 2026.
+- DNS: managed at Namecheap — A records → GitHub Pages, MX → Namecheap Private Email. Never delete the MX/TXT records.
+- Business email: `james@kerb2kerb.co.uk`.
+- **Kerb2Kerb carries luggage and goods only — never passengers.** No copy anywhere may imply a person rides in the van.
 - WhatsApp contact: [wa.me/447926438553](https://wa.me/447926438553)
 
 ## Structure
 
-- `site/` — the public 5-page marketing site (Home, Services, How it works, About, FAQ), served at `/`. Single self-contained `index.html` with client-side hash routing.
+- `site-v2/` — the live public site (nine pages: `/`, `/quote/`, `/cruise-luggage/`, `/student-move-in/`, `/airport-luggage/`, `/removals/`, `/courier/`, `/faq/`, `/terms/`), served at `/`. Plain HTML/CSS/vanilla JS, no framework. `js/quote.js` is the instant-quote engine (rules in `plans/pricing.md`); `js/postcodes.js` is the postcode-district centroid table. Spec: `plans/site-v2-brief.md`.
+  - **Two values to paste in once they exist**: the Meta Pixel ID at `site-v2/js/site.js` (`PIXEL_ID`), and the Google Apps Script web-app URL at `site-v2/js/quote.js` (`APPS_SCRIPT_URL`) — setup in `plans/enquiry-form/SETUP.md`. Until then the form falls back to opening WhatsApp with the enquiry pre-typed.
+- `site/` — the old one-page site, no longer built or served; kept for reference until it's archived.
 - `dashboard/` — internal ops dashboard (bookings, debt/emergency fund tracker, income & expenses, portfolio, idea generator), served at `/dashboard/`. Not linked from the public site nav. Data lives in browser `localStorage` — see [dashboard/README.md](dashboard/README.md) for the one feature (live bookings) that doesn't carry over from the original Claude artifact.
 - `build.sh` — assembles `site/` and `dashboard/` into `dist/`, the folder a host serves. Plain bash, no Node/build tooling required.
 - `dist/` — build output, gitignored.
