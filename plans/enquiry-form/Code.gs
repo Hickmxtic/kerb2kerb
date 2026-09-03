@@ -5,6 +5,10 @@
 
 var NOTIFY_EMAIL = 'james@kerb2kerb.co.uk';
 var SHEET_NAME = 'Enquiries';
+// Only needed if this script was created at script.google.com rather than
+// from inside the sheet (Extensions -> Apps Script). Paste the long ID from
+// the sheet's URL: https://docs.google.com/spreadsheets/d/<THIS PART>/edit
+var SHEET_ID = '';
 
 var COLUMNS = [
   'received', 'name', 'whatsapp', 'job_type', 'pickup', 'dropoff',
@@ -43,7 +47,9 @@ function doGet() {
 }
 
 function getSheet() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SHEET_ID
+    ? SpreadsheetApp.openById(SHEET_ID)
+    : SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
