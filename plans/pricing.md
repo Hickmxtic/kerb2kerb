@@ -70,6 +70,21 @@ dev pipeline later — not this month.
 | **Home & office removals** | **£35/hour, 2-hour minimum (£70)**, +£1.20/mile beyond 10 miles. Quote a fixed price after a photo of the load. | £40/hr market avg; you're just under, still £15/hr over floor after running costs |
 | **Priority business courier** (same-day) | **£35 minimum + £1.50/mile** one-way | 20-mile job = £65 vs ~£43 floor; sits inside the £30–40 min / £1.10–1.70 range |
 
+### Edge rules the quote tool enforces (decided 2026-09-03 after testing)
+
+- **Student £35 flat needs BOTH ends inside Southampton** (SO14–SO19). A
+  Southampton family sending their kid to Portsmouth or Winchester halls
+  is a 40-mile round trip — it's £35 + £1.20/mile for the leg outside the
+  city, not £35.
+- **Bag count is capped at 40** in the tool; more than that is a
+  hand-quote ("WhatsApp me"). Stops nonsense like 99,999 bags = £1.2m.
+- **Service radius is 25 miles from Southampton centre** for pricing;
+  beyond that the tool says "outside my usual area — WhatsApp me". London
+  airport runs are the exception (fixed price, pickup within 25 miles).
+- **The 15-mile cliff is deliberate**: under 15 miles you pay per bag; over
+  it you pay the journey price regardless of bags (20 bags from Portsmouth
+  = £43). If that ever feels wrong on a real job, quote by hand.
+
 ### Rules that keep it simple on WhatsApp
 
 - **Quote a single number, not a formula.** Use the table to work it out, send "£35, door to door, that's everything."
