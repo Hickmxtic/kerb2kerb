@@ -41,4 +41,6 @@ Then visit `http://localhost:8000/` for the site and `http://localhost:8000/dash
    - `CNAME` record, host `www`, value `hickmxtic.github.io`
 4. Wait 10–60 minutes, then `https://kerb2kerb.co.uk` serves the site.
 
+**Email on the domain** (separate from the records above — don't delete any `MX`/`TXT` records while editing DNS): Namecheap → Domain List → *Manage* → **Domain** tab → *Redirect Email* → add a forwarder `hello@kerb2kerb.co.uk` → `jhickman077@outlook.com`. Free, receive-only, two minutes. If sending *from* the address is ever needed (outreach, ad accounts), add a paid mailbox (Namecheap Private Email or Google Workspace) later.
+
 After that, deploying = push to `main`.

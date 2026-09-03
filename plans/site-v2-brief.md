@@ -85,9 +85,12 @@ with the details pre-typed, so nothing is ever lost.
 
 ## Trust block (every page)
 
-- Insured for goods in transit and hire & reward **[ask: insurer + cover
-  amount he's happy to publish; default wording "fully insured for goods
-  in transit"]**
+- **Insurance (confirmed, publish this):** *Goods in transit insured up to
+  £25,000 · Public liability £5,000,000 · Hire & reward courier cover ·
+  Fully comprehensive vehicle insurance.* Insurers: Somerset Bridge
+  Insurance and Novus Insurance — name them in the FAQ answer to "Is my
+  luggage insured?", not in the hero. Never say "per load" or "per item"
+  unless the policy wording is checked; "up to £25,000" is safe.
 - "One van, one driver — that's me, James." Photo **[ask: van/James photos;
   default: none, typographic design]**
 - What fits: **2019 Citroën Dispatch** — "fits 15+ large suitcases, or a studio/one-bed's boxes in one load". Use the model name; it reads as real, not stock.
