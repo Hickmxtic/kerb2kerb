@@ -113,5 +113,6 @@ than one long session trying to do everything at once.
 - Dashboard data lives in `localStorage` only (keys prefixed `k2k_`) — no backend.
 - Match the existing inline-style, vanilla-JS, single-file pattern in both
   `site/index.html` and `dashboard/index.html`.
-- Netlify site `extraordinary-fairy-463006` (ID `f3b860a5-02eb-4d57-9c21-55fcba749a71`)
-  auto-deploys from `main` — never touch DNS/Namecheap.
+- Hosting: Netlify was scrapped on 2026-09-03 (its credit-based Free plan
+  pauses sites at zero credits). No host is connected until James picks the
+  replacement — don't assume pushes deploy anything. Never touch DNS/Namecheap.
