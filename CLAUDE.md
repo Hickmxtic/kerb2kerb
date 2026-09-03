@@ -5,6 +5,24 @@ self-contained HTML file (inline CSS/JS, no framework, no build tooling
 beyond `build.sh`). See [README.md](README.md) for structure, deploy, and
 local dev.
 
+## What Kerb2Kerb is — and isn't
+
+**Goods and luggage only. No passenger ever rides in the van.** Customers
+travel separately; their bags meet them at the cruise terminal, airport, or
+halls. This is a hard business rule from James, not a preference:
+
+- Never write copy, scripts, WhatsApp replies, or pricing that put a person
+  in the vehicle — no "door to terminal with you", no "ride along", no "I'll
+  drop you off". The customer's *things* travel; the customer doesn't.
+- It's also why the insurance is hire & reward + goods-in-transit and there is
+  no private-hire licence — carrying people for money would need one.
+- Pricing follows from it: local runs (≤ 15 mi) are quoted **per bag**,
+  distance runs **per journey**. Current numbers live in `plans/pricing.md`.
+
+Job types: cruise-terminal luggage runs, airport luggage runs, student
+move-in / luggage & parcel runs, small home & office removals, same-day
+business courier.
+
 ## Build pipeline for new features
 
 For any non-trivial change to `site/index.html` or `dashboard/index.html` —
@@ -70,13 +88,15 @@ The routine also writes `dashboard/ops-status.json` (see `ops-lead.md` for
 the exact shape) and commits + pushes just that one file — this is the sole
 exception to "read-only," and it's what drives the dashboard's live "Ops
 Team" panel. Nothing else should ever be committed from that automated run.
-**Note:** pushing requires the routine's "allowed push branches" to include
-`main`. As of 2026-09-02 this isn't achievable through the RemoteTrigger API,
-the routine's own settings page, or the repo's GitHub App installation
-permissions — James checked all three. Until that changes, the panel shows
-whatever was last written by hand rather than auto-refreshing. Don't keep
-re-attempting the same fixes; ask whether anything's changed before trying
-again.
+**Note:** as of 2026-09-03 the push fails with a 403 whose message names the
+actual fix: the Claude GitHub App isn't installed on `Hickmxtic/kerb2kerb`.
+James needs to install it at
+https://github.com/apps/claude/installations/select_target (pick his
+account, select this repo) or re-link GitHub from
+https://claude.ai/customize/connectors. Until he has, a failed push is
+expected — report it in one line and carry on; don't retry, and don't treat
+it as a task failure. The panel then shows whatever was last written by
+hand.
 
 ## Working style
 
