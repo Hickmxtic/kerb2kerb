@@ -11,11 +11,11 @@ Assumptions — correct these and I'll rerun:
 | Input | Assumed | Source / note |
 |---|---|---|
 | Diesel | 184p/litre | UK average, early Sept 2026 ([Fuel Finder](https://www.fuel-finder.uk/uk-fuel-price-index)) |
-| Van economy | 35 mpg | typical medium van; tell me yours |
-| Fuel cost | **£0.24/mile** | 184p × 4.546 ÷ 35 |
+| Van economy | ~42 mpg | 2019 Citroën Dispatch (BlueHDi); real-world estimate — a fuel receipt + odometer check will pin it |
+| Fuel cost | **£0.20/mile** | 184p × 4.546 ÷ 42 |
 | Wear, tyres, servicing | £0.12/mile | standard van rule of thumb |
 | Insurance (GIT + hire & reward) | ~£0.22/mile | assumes ~£1,800/yr over ~8,000 business miles — tell me the real premium |
-| **All-in running cost** | **~£0.58/mile** | |
+| **All-in running cost** | **~£0.54/mile** | every price in this sheet was set against £0.58, so each carries a little more margin than stated |
 | Your time | **£20/hour** | floor, not target — below this you're better off on Flex |
 
 Every job is a **round trip** for you, so cost = (one-way miles × 2 × £0.58) + (hours × £20). That's the floor. A job priced under it loses money even before you've counted the phone calls.

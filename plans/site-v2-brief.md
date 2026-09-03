@@ -90,7 +90,7 @@ with the details pre-typed, so nothing is ever lost.
   in transit"]**
 - "One van, one driver — that's me, James." Photo **[ask: van/James photos;
   default: none, typographic design]**
-- What fits: **[ask: van make/model and rough capacity]**
+- What fits: **2019 Citroën Dispatch** — "fits 15+ large suitcases, or a studio/one-bed's boxes in one load". Use the model name; it reads as real, not stock.
 - Reviews: none yet — omit the section rather than fake it; add the block
   when the first three exist.
 
