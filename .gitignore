@@ -1,3 +1,9 @@
 .DS_Store
 node_modules/
 dist/
+
+# Draft creative assets - reference material, already delivered to James directly.
+# Not needed by the site (social-share.jpg in site-v2/img/ is tracked separately)
+# and large binaries were choking the SSH push for reasons still unclear.
+plans/ad-creative/
+plans/van-mockups/
